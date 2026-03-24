@@ -477,7 +477,7 @@
   }
   .modal-overlay.open .modal { transform: scale(1); }
   .modal h3 { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 8px; }
-  .modal p { font-size: 13px; color: var(--text2); margin-bottom: 20px; line-height: 1.6; }
+  .modal p { font-size: 13px; color: var(--text2); margin-bottom: 12px; line-height: 1.6; }
   .modal-input {
     width: 100%; background: var(--bg3);
     border: 1px solid var(--border);
@@ -823,6 +823,7 @@
         <strong>Asistente demográfico</strong>
         <span>● En línea · Datos Censo 2022</span>
       </div>
+      <button onclick="changeApiKey()" title="Cambiar API Key" style="background:none;border:1px solid var(--border);border-radius:8px;padding:4px 8px;font-size:11px;color:var(--text2);cursor:pointer;margin-right:6px;">🔑</button>
       <button class="chat-close" onclick="closeChat()">✕</button>
     </div>
 
@@ -852,11 +853,34 @@
 <!-- API KEY MODAL -->
 <div class="modal-overlay" id="apiModal">
   <div class="modal">
-    <h3>Configurar API Key</h3>
-    <p>Para usar el asistente de IA necesitás una API Key de Anthropic. Podés obtenerla gratis en <strong>console.anthropic.com</strong>. La clave se guarda solo en tu navegador.</p>
-    <input type="password" class="modal-input" id="apiKeyInput" placeholder="sk-ant-api03-..." />
-    <button class="modal-btn" onclick="saveApiKey()">Guardar y continuar</button>
-    <div class="modal-note">Tu clave nunca se envía a ningún servidor propio. Se usa solo para llamadas directas a Anthropic.</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#0e7fc2,#0a6aa8);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🧠</div>
+      <div>
+        <h3 style="margin:0;font-size:18px;">Activar asistente de IA</h3>
+        <span style="font-size:12px;color:var(--text3);">Powered by Claude · Anthropic</span>
+      </div>
+    </div>
+
+    <div style="background:#f0f8ff;border:1px solid #bde0f7;border-radius:10px;padding:14px;margin-bottom:16px;">
+      <p style="font-size:13px;color:#0a6aa8;font-weight:600;margin-bottom:8px;">📋 Cómo obtener tu API Key (gratis):</p>
+      <ol style="font-size:12px;color:#374151;padding-left:18px;line-height:2;">
+        <li>Entrá a <a href="https://console.anthropic.com" target="_blank" style="color:#0e7fc2;font-weight:600;">console.anthropic.com</a></li>
+        <li>Creá tu cuenta o iniciá sesión</li>
+        <li>Andá a <strong>Settings → API Keys</strong></li>
+        <li>Hacé clic en <strong>Create Key</strong></li>
+        <li>Copiá la clave y pegala abajo</li>
+      </ol>
+    </div>
+
+    <label style="font-size:12px;color:var(--text2);display:block;margin-bottom:6px;font-weight:500;">Tu API Key de Anthropic</label>
+    <div style="position:relative;">
+      <input type="password" class="modal-input" id="apiKeyInput" placeholder="sk-ant-api03-..." style="padding-right:44px;" 
+        onkeydown="if(event.key==='Enter') saveApiKey()" />
+      <button onclick="toggleApiVis()" id="visBtn" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--text3);">👁</button>
+    </div>
+    <div id="apiError" style="display:none;font-size:12px;color:#dc2626;margin:6px 0 0;padding:8px 12px;background:#fef2f2;border-radius:8px;"></div>
+    <button class="modal-btn" onclick="saveApiKey()" style="margin-top:14px;" id="saveBtn">Conectar asistente →</button>
+    <p style="font-size:11px;color:var(--text3);text-align:center;margin-top:10px;line-height:1.6;">🔒 Tu clave se guarda solo en este navegador y se usa únicamente para consultas directas a Anthropic. IQ Data nunca accede a ella.</p>
   </div>
 </div>
 
@@ -1129,16 +1153,86 @@ function openChat() {
     document.getElementById('chatOverlay').classList.add('open');
   }
 }
+function changeApiKey() {
+  closeChat();
+  apiKey = '';
+  localStorage.removeItem('anthropic_key');
+  document.getElementById('apiKeyInput').value = '';
+  document.getElementById('apiError').style.display = 'none';
+  document.getElementById('apiModal').classList.add('open');
+}
 function closeChat() { document.getElementById('chatOverlay').classList.remove('open'); }
 function closeChatOnBg(e) { if (e.target === document.getElementById('chatOverlay')) closeChat(); }
 
-function saveApiKey() {
+function toggleApiVis() {
+  const inp = document.getElementById('apiKeyInput');
+  const btn = document.getElementById('visBtn');
+  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+async function saveApiKey() {
   const k = document.getElementById('apiKeyInput').value.trim();
-  if (!k.startsWith('sk-')) { alert('Ingresá una clave válida (comienza con sk-ant-...)'); return; }
-  apiKey = k;
-  localStorage.setItem('anthropic_key', k);
-  document.getElementById('apiModal').classList.remove('open');
-  document.getElementById('chatOverlay').classList.add('open');
+  const errEl = document.getElementById('apiError');
+  const saveBtn = document.getElementById('saveBtn');
+  errEl.style.display = 'none';
+
+  if (!k) {
+    errEl.textContent = '⚠️ Por favor ingresá tu API Key.';
+    errEl.style.display = 'block'; return;
+  }
+  if (!k.startsWith('sk-')) {
+    errEl.textContent = '⚠️ La clave debe comenzar con "sk-ant-...". Verificá que la copiaste completa.';
+    errEl.style.display = 'block'; return;
+  }
+
+  saveBtn.textContent = 'Verificando...';
+  saveBtn.disabled = true;
+
+  // Test the key with a minimal API call
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': k,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 10,
+        messages: [{ role: 'user', content: 'ok' }]
+      })
+    });
+
+    if (res.status === 401) {
+      errEl.textContent = '❌ API Key inválida. Verificá que la copiaste correctamente desde console.anthropic.com.';
+      errEl.style.display = 'block';
+      saveBtn.textContent = 'Conectar asistente →';
+      saveBtn.disabled = false;
+      return;
+    }
+    if (res.status === 429) {
+      // Rate limit but key is valid
+    }
+
+    apiKey = k;
+    localStorage.setItem('anthropic_key', k);
+    saveBtn.textContent = '✓ Conectado!';
+    setTimeout(() => {
+      document.getElementById('apiModal').classList.remove('open');
+      document.getElementById('chatOverlay').classList.add('open');
+      saveBtn.textContent = 'Conectar asistente →';
+      saveBtn.disabled = false;
+    }, 600);
+
+  } catch(e) {
+    errEl.textContent = '❌ Error de conexión. Verificá tu internet e intentá de nuevo.';
+    errEl.style.display = 'block';
+    saveBtn.textContent = 'Conectar asistente →';
+    saveBtn.disabled = false;
+  }
 }
 
 function autoResize(el) {
