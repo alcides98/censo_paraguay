@@ -7,384 +7,525 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-:root {
-  --bg: #f5f6f8;
-  --bg2: #ffffff;
-  --bg3: #f0f2f5;
-  --border: rgba(0,0,0,0.08);
-  --border2: rgba(0,0,0,0.15);
-  --text: #111827;
-  --text2: #4b5563;
-  --text3: #9ca3af;
-  --accent: #0e7fc2;
-  --accent2: #0a6aa8;
-  --blue: #0e7fc2;
-  --teal: #0d9e75;
-  --coral: #dc4a35;
-  --purple: #6d5fd4;
-  --green: #4a9a2c;
-  --radius: 12px;
+:root{
+  --bg:#f5f7fa;--bg2:#ffffff;--bg3:#eef1f6;--bg4:#e4e8f0;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
+  --text:#111827;--text2:#4b5563;--text3:#9ca3af;
+  --accent:#0e7fc2;--accent2:#0a6aa8;
+  --teal:#0d9e75;--coral:#dc4a35;--purple:#6d5fd4;--amber:#d08d10;--green:#4a9a2c;
+  --radius:12px;--shadow:0 2px 12px rgba(0,0,0,0.07);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;}
 
-/* HERO */
-.hero{
-  position:relative;overflow:hidden;
-  padding:clamp(40px,8vw,80px) clamp(16px,5vw,60px) clamp(32px,6vw,60px);
-  border-bottom:1px solid var(--border);
-  background:linear-gradient(135deg,#e8f4fc 0%,#f0f8ff 50%,#e6f3fb 100%);
-}
-.hero::before{content:'';position:absolute;top:-120px;right:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(14,127,194,0.07) 0%,transparent 70%);pointer-events:none;}
-.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
-.iq-logo{height:clamp(48px,8vw,70px);width:auto;display:block;margin-bottom:clamp(16px,3vw,28px);}
-.hero-badge{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(14,127,194,.3);padding:5px 12px;border-radius:20px;margin-bottom:clamp(12px,2vw,20px);background:rgba(14,127,194,.06);}
-.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(28px,6vw,64px);font-weight:400;line-height:1.05;color:#111827;margin-bottom:12px;}
-.hero h1 em{color:var(--accent);font-style:italic;}
-.hero-sub{font-size:clamp(13px,2vw,16px);color:var(--text2);max-width:560px;margin-bottom:clamp(20px,4vw,32px);}
-.hero-stats{display:flex;gap:clamp(16px,4vw,32px);flex-wrap:wrap;}
-.hero-stat{display:flex;flex-direction:column;gap:2px;}
-.hero-stat .num{font-family:'DM Serif Display',serif;font-size:clamp(22px,4vw,32px);color:#0e7fc2;line-height:1;}
-.hero-stat .lbl{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;}
-.hero-divider{width:1px;background:rgba(14,127,194,.2);align-self:stretch;margin:0 4px;}
-
-/* NAV */
-.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);box-shadow:0 1px 8px rgba(0,0,0,.06);}
-.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;height:52px;padding:0 clamp(12px,4vw,40px);gap:0;overflow-x:auto;scrollbar-width:none;}
+/* ─ NAV ─ */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);box-shadow:0 1px 8px rgba(0,0,0,0.06);}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;height:54px;padding:0 clamp(12px,4vw,32px);gap:0;overflow-x:auto;scrollbar-width:none;}
 .nav-inner::-webkit-scrollbar{display:none;}
-.nav-logo-svg{height:34px;width:auto;display:block;flex-shrink:0;margin-right:clamp(12px,2vw,24px);padding-right:clamp(12px,2vw,24px);border-right:1px solid var(--border);}
-.nav-item{padding:0 clamp(8px,1.5vw,16px);height:52px;display:flex;align-items:center;font-size:clamp(12px,1.5vw,13px);color:#4b5563;cursor:pointer;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;white-space:nowrap;flex-shrink:0;}
-.nav-item:hover{color:#111827;}
+.nav-logo-svg{height:32px;width:auto;display:block;flex-shrink:0;margin-right:20px;padding-right:20px;border-right:1px solid var(--border);}
+.nav-item{padding:0 clamp(8px,1.5vw,14px);height:54px;display:flex;align-items:center;font-size:13px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.nav-item:hover{color:var(--text);}
 .nav-item.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500;}
-.nav-chat{margin-left:auto;background:var(--accent);color:#fff;font-weight:600;font-size:clamp(11px,1.5vw,13px);padding:8px clamp(12px,2vw,18px);border-radius:20px;cursor:pointer;border:none;transition:background .2s,transform .1s;white-space:nowrap;flex-shrink:0;}
-.nav-chat:hover{background:#0a6aa8;transform:translateY(-1px);}
 
-/* MAIN */
-main{max-width:1100px;margin:0 auto;padding:clamp(24px,5vw,48px) clamp(16px,5vw,40px);}
-section{margin-bottom:clamp(40px,7vw,64px);scroll-margin-top:64px;}
-.section-head{display:flex;align-items:baseline;gap:12px;margin-bottom:clamp(16px,3vw,24px);padding-bottom:12px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
-.section-head h2{font-family:'DM Serif Display',serif;font-size:clamp(20px,4vw,26px);font-weight:400;color:var(--text);}
-.section-head .section-tag{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;}
 
-/* KPI */
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:clamp(8px,2vw,12px);margin-bottom:clamp(20px,4vw,32px);}
-.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(14px,2.5vw,20px) clamp(12px,2vw,18px);position:relative;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;}
-.kpi:hover{border-color:rgba(14,127,194,.25);transform:translateY(-2px);box-shadow:0 4px 16px rgba(14,127,194,.08);}
+
+/* ─ HERO ─ */
+.hero{background:linear-gradient(135deg,#dceefb 0%,#eef7ff 50%,#e0f0fa 100%);border-bottom:1px solid var(--border);padding:clamp(32px,6vw,72px) clamp(16px,5vw,60px) clamp(24px,5vw,56px);}
+.hero-inner{max-width:1200px;margin:0 auto;}
+.iq-logo{height:clamp(44px,7vw,68px);width:auto;display:block;margin-bottom:clamp(16px,3vw,28px);}
+.hero-badge{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(14,127,194,.3);padding:4px 12px;border-radius:20px;margin-bottom:clamp(10px,2vw,18px);background:rgba(14,127,194,.06);}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(26px,5.5vw,60px);font-weight:400;line-height:1.05;color:#111827;margin-bottom:10px;}
+.hero h1 em{color:var(--accent);font-style:italic;}
+.hero-sub{font-size:clamp(13px,1.8vw,15px);color:var(--text2);max-width:520px;margin-bottom:clamp(18px,3vw,28px);}
+.hero-stats{display:flex;gap:clamp(14px,3vw,28px);flex-wrap:wrap;align-items:flex-end;}
+.hero-stat{display:flex;flex-direction:column;gap:2px;}
+.hero-stat .num{font-family:'DM Serif Display',serif;font-size:clamp(20px,3.5vw,30px);color:#0e7fc2;line-height:1;}
+.hero-stat .lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;}
+.hero-divider{width:1px;background:rgba(14,127,194,.2);height:36px;align-self:center;}
+
+/* ─ MAIN ─ */
+main{max-width:1200px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(16px,4vw,32px);}
+section{margin-bottom:clamp(32px,6vw,56px);scroll-margin-top:64px;}
+.section-head{display:flex;align-items:baseline;gap:10px;margin-bottom:clamp(14px,2.5vw,22px);padding-bottom:10px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.section-head h2{font-family:'DM Serif Display',serif;font-size:clamp(18px,3.5vw,24px);font-weight:400;color:var(--text);}
+.section-tag{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;}
+
+/* ─ FILTER BAR ─ */
+.filter-bar{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(12px,2vw,18px) clamp(14px,2.5vw,22px);margin-bottom:clamp(14px,2.5vw,20px);display:flex;flex-wrap:wrap;gap:clamp(10px,2vw,16px);align-items:flex-end;box-shadow:var(--shadow);}
+.filter-group{display:flex;flex-direction:column;gap:4px;min-width:140px;flex:1;}
+.filter-label{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;}
+.filter-select,.filter-input{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 12px;outline:none;transition:border-color .2s;cursor:pointer;width:100%;}
+.filter-select:focus,.filter-input:focus{border-color:var(--accent);}
+.filter-btn{padding:9px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.filter-btn:hover{background:var(--accent2);}
+.filter-btn.secondary{background:var(--bg3);color:var(--text2);border:1px solid var(--border);}
+.filter-btn.secondary:hover{background:var(--bg4);color:var(--text);}
+.filter-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.chip{display:flex;align-items:center;gap:5px;background:rgba(14,127,194,.1);color:var(--accent);border:1px solid rgba(14,127,194,.25);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:500;}
+.chip button{background:none;border:none;color:var(--accent);cursor:pointer;font-size:14px;line-height:1;padding:0 0 0 2px;opacity:.7;}
+.chip button:hover{opacity:1;}
+
+/* ─ KPI GRID ─ */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:clamp(8px,1.5vw,12px);margin-bottom:clamp(16px,3vw,24px);}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(14px,2.5vw,20px) clamp(12px,2vw,18px);position:relative;overflow:hidden;transition:all .2s;cursor:default;}
+.kpi:hover{border-color:rgba(14,127,194,.3);transform:translateY(-2px);box-shadow:0 4px 16px rgba(14,127,194,.1);}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.kpi.blue::before{background:var(--blue);} .kpi.teal::before{background:var(--teal);}
-.kpi.coral::before{background:var(--coral);} .kpi.purple::before{background:var(--purple);}
-.kpi.amber::before{background:var(--accent);} .kpi.green::before{background:var(--green);}
-.kpi-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
-.kpi-value{font-family:'DM Serif Display',serif;font-size:clamp(24px,4vw,34px);line-height:1;color:var(--text);}
-.kpi-sub{font-size:11px;color:var(--text2);margin-top:6px;}
+.kpi.blue::before{background:var(--accent);}.kpi.teal::before{background:var(--teal);}
+.kpi.coral::before{background:var(--coral);}.kpi.purple::before{background:var(--purple);}
+.kpi.amber::before{background:var(--amber);}.kpi.green::before{background:var(--green);}
+.kpi-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.kpi-value{font-family:'DM Serif Display',serif;font-size:clamp(22px,3.5vw,32px);line-height:1;color:var(--text);transition:all .4s;}
+.kpi-sub{font-size:11px;color:var(--text2);margin-top:5px;}
+.kpi-trend{font-size:10px;margin-top:4px;}
+.kpi-trend.up{color:var(--teal);}.kpi-trend.down{color:var(--coral);}
 
-/* CHARTS */
+/* ─ CHARTS ─ */
 .chart-grid{display:grid;gap:clamp(10px,2vw,16px);}
 .chart-grid.two{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
-.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(14px,2.5vw,20px);transition:border-color .2s;}
+.chart-grid.three{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(14px,2.5vw,20px);transition:border-color .2s;box-shadow:var(--shadow);}
 .chart-card:hover{border-color:var(--border2);}
-.chart-title{font-size:clamp(12px,1.5vw,13px);font-weight:500;color:var(--text);margin-bottom:4px;}
+.chart-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;gap:8px;}
+.chart-title{font-size:13px;font-weight:500;color:var(--text);}
 .chart-desc{font-size:11px;color:var(--text3);margin-bottom:clamp(10px,2vw,16px);}
-.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;font-size:11px;color:var(--text2);}
-.legend span{display:flex;align-items:center;gap:5px;}
+.chart-actions{display:flex;gap:4px;flex-shrink:0;}
+.chart-btn{padding:4px 8px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .2s;}
+.chart-btn.active,.chart-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:11px;color:var(--text2);}
+.legend span{display:flex;align-items:center;gap:4px;}
 .leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
 .chart-wrap{position:relative;width:100%;}
 
-/* TABLE */
+/* ─ DEPT EXPLORER ─ */
+.dept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:16px;}
+.dept-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.dept-card:hover,.dept-card.selected{border-color:var(--accent);box-shadow:0 0 0 2px rgba(14,127,194,.15);}
+.dept-card.selected{background:rgba(14,127,194,.04);}
+.dept-card-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.dept-card-pop{font-family:'DM Serif Display',serif;font-size:20px;color:var(--accent);line-height:1;}
+.dept-card-meta{font-size:11px;color:var(--text3);margin-top:4px;}
+.dept-card-bar{height:3px;border-radius:2px;background:var(--accent);margin-top:8px;opacity:.6;}
+.dept-detail{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:16px;display:none;}
+.dept-detail.visible{display:block;animation:fadeUp .3s ease;}
+.dept-detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:16px 0;}
+.dept-stat{background:var(--bg3);border-radius:8px;padding:12px 14px;}
+.dept-stat-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px;}
+.dept-stat-value{font-family:'DM Serif Display',serif;font-size:22px;color:var(--text);}
+
+/* ─ COMPARE MODE ─ */
+.compare-bar{background:linear-gradient(135deg,rgba(14,127,194,.05),rgba(14,127,194,.02));border:1px solid rgba(14,127,194,.2);border-radius:var(--radius);padding:14px 18px;margin-bottom:14px;display:none;align-items:center;gap:12px;flex-wrap:wrap;}
+.compare-bar.visible{display:flex;}
+.compare-bar span{font-size:13px;color:var(--accent);font-weight:500;}
+.compare-selected{display:flex;flex-wrap:wrap;gap:6px;flex:1;}
+
+/* ─ RANGE SLIDER ─ */
+.slider-wrap{display:flex;flex-direction:column;gap:6px;}
+.slider-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);}
+input[type=range]{width:100%;height:4px;border-radius:2px;-webkit-appearance:none;appearance:none;background:var(--bg4);outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+
+/* ─ SEARCH ─ */
+.search-wrap{position:relative;}
+.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.4;}
+.search-input{padding:8px 12px 8px 34px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;width:100%;outline:none;transition:border-color .2s;}
+.search-input:focus{border-color:var(--accent);}
+
+/* ─ TABLE ─ */
 .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.data-table{width:100%;border-collapse:collapse;font-size:clamp(11px,1.5vw,13px);min-width:480px;}
-.data-table th{text-align:left;font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap;}
-.data-table td{padding:10px 12px;color:var(--text2);border-bottom:1px solid var(--border);}
+.data-table{width:100%;border-collapse:collapse;font-size:13px;min-width:500px;}
+.data-table th{text-align:left;font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;}
+.data-table th:hover{color:var(--accent);}
+.data-table th .sort-icon{opacity:.4;margin-left:4px;font-size:10px;}
+.data-table th.sorted{color:var(--accent);}
+.data-table th.sorted .sort-icon{opacity:1;}
+.data-table td{padding:10px 12px;color:var(--text2);border-bottom:1px solid var(--border);transition:background .15s;}
 .data-table tr:hover td{background:var(--bg3);color:var(--text);}
 .data-table tr:last-child td{border-bottom:none;}
-.num-cell{font-family:'DM Serif Display',serif;font-size:clamp(12px,1.5vw,14px);color:var(--text);text-align:right;}
-.mini-bar{height:4px;border-radius:2px;background:var(--blue);margin-top:3px;opacity:.7;}
+.data-table tr.highlighted td{background:rgba(14,127,194,.06);}
+.num-cell{font-family:'DM Serif Display',serif;font-size:14px;color:var(--text);text-align:right;}
+.mini-bar{height:4px;border-radius:2px;background:var(--accent);margin-top:3px;opacity:.65;transition:width .4s;}
 .pct-lbl{font-size:10px;color:var(--text3);}
-.rank{font-size:11px;color:var(--text3);font-weight:500;}
 
-/* INSIGHTS */
-.insights-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:clamp(10px,2vw,14px);}
-.insight{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(14px,2.5vw,20px);transition:border-color .2s,transform .2s,box-shadow .2s;}
-.insight:hover{border-color:rgba(14,127,194,.25);transform:translateY(-2px);box-shadow:0 4px 16px rgba(14,127,194,.08);}
+/* ─ TOGGLE SWITCH ─ */
+.toggle-group{display:flex;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px;gap:2px;}
+.toggle-opt{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text2);transition:all .2s;border:none;background:none;font-family:'DM Sans',sans-serif;}
+.toggle-opt.active{background:var(--bg2);color:var(--accent);box-shadow:0 1px 4px rgba(0,0,0,.1);}
+
+/* ─ INSIGHTS ─ */
+.insights-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(10px,2vw,14px);}
+.insight{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:clamp(14px,2.5vw,20px);transition:all .2s;box-shadow:var(--shadow);}
+.insight:hover{border-color:rgba(14,127,194,.3);transform:translateY(-2px);box-shadow:0 4px 16px rgba(14,127,194,.1);}
 .insight-icon{font-size:22px;margin-bottom:10px;}
-.insight h4{font-size:clamp(13px,1.5vw,14px);font-weight:600;color:var(--text);margin-bottom:6px;}
-.insight p{font-size:clamp(12px,1.5vw,13px);color:var(--text2);line-height:1.55;}
+.insight h4{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.insight p{font-size:12px;color:var(--text2);line-height:1.55;}
 .insight-tag{display:inline-block;font-size:10px;font-weight:500;padding:3px 8px;border-radius:10px;margin-top:10px;letter-spacing:.05em;text-transform:uppercase;}
-.tag-warn{background:rgba(220,74,53,.10);color:#b83324;}
-.tag-info{background:rgba(14,127,194,.10);color:#0a6aa8;}
-.tag-success{background:rgba(13,158,117,.10);color:#0a7d5c;}
-.tag-amber{background:rgba(14,127,194,.10);color:var(--accent);}
+.tag-warn{background:rgba(220,74,53,.1);color:#b83324;}
+.tag-info{background:rgba(14,127,194,.1);color:#0a6aa8;}
+.tag-success{background:rgba(13,158,117,.1);color:#0a7d5c;}
+.tag-amber{background:rgba(208,141,16,.1);color:#9a6500;}
 
-/* CHAT FAB */
-.fab{position:fixed;bottom:clamp(16px,4vw,28px);right:clamp(16px,4vw,28px);z-index:150;width:clamp(48px,7vw,56px);height:clamp(48px,7vw,56px);border-radius:50%;background:var(--accent);border:none;color:#fff;font-size:clamp(18px,3vw,22px);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(14,127,194,.35);transition:transform .2s,box-shadow .2s;}
-.fab:hover{transform:scale(1.08);box-shadow:0 8px 32px rgba(14,127,194,.45);}
-.fab-badge{position:absolute;top:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:var(--teal);border:2px solid var(--bg);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.2);}}
-
-/* CHAT OVERLAY */
-.chat-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.35);backdrop-filter:blur(4px);display:flex;align-items:flex-end;justify-content:flex-end;padding:clamp(8px,2vw,20px);opacity:0;pointer-events:none;transition:opacity .3s;}
-.chat-overlay.open{opacity:1;pointer-events:all;}
-.chat-panel{
-  width:min(420px,calc(100vw - 16px));
-  height:min(620px,calc(100dvh - 80px));
-  background:var(--bg2);border:1px solid var(--border2);border-radius:18px;
-  display:flex;flex-direction:column;overflow:hidden;
-  transform:translateY(20px) scale(.98);transition:transform .3s;
-  box-shadow:0 24px 64px rgba(0,0,0,.18);
-}
-@media(max-width:480px){
-  .chat-overlay{padding:0;align-items:flex-end;justify-content:center;}
-  .chat-panel{width:100%;border-radius:18px 18px 0 0;height:min(85dvh,600px);}
-}
-.chat-overlay.open .chat-panel{transform:translateY(0) scale(1);}
-.chat-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
-.chat-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#0e7fc2,#0a6aa8);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.chat-header-info{flex:1;}
-.chat-header-info strong{font-size:14px;color:var(--text);font-weight:600;}
-.chat-header-info span{font-size:11px;color:var(--teal);display:block;}
-.chat-close{width:28px;height:28px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
-.chat-close:hover{background:var(--coral);color:white;}
-.chat-messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
-.msg{max-width:88%;animation:fadeUp .25s ease;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-.msg.ai{align-self:flex-start;}
-.msg.user{align-self:flex-end;}
-.msg-bubble{padding:10px 14px;border-radius:14px;font-size:clamp(12px,1.5vw,13px);line-height:1.55;}
-.msg.ai .msg-bubble{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:4px;}
-.msg.user .msg-bubble{background:var(--accent);color:#fff;border-bottom-right-radius:4px;font-weight:500;}
-.msg-time{font-size:10px;color:var(--text3);margin-top:4px;padding:0 2px;}
-.msg.user .msg-time{text-align:right;}
-.typing{display:flex;gap:4px;padding:12px 14px;}
-.typing-dot{width:6px;height:6px;border-radius:50%;background:#9ca3af;animation:bounce 1.2s ease-in-out infinite;}
-.typing-dot:nth-child(2){animation-delay:.2s;} .typing-dot:nth-child(3){animation-delay:.4s;}
-@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
-.chat-suggestions{padding:0 12px 8px;display:flex;flex-wrap:wrap;gap:6px;}
-.suggestion{font-size:11px;color:var(--text2);border:1px solid var(--border);border-radius:12px;padding:5px 10px;cursor:pointer;background:var(--bg3);transition:border-color .2s,color .2s,background .2s;white-space:nowrap;}
-.suggestion:hover{border-color:var(--accent);color:var(--accent);background:rgba(14,127,194,.05);}
-.chat-input-area{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:flex-end;}
-.chat-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:clamp(13px,1.5vw,14px);padding:10px 14px;resize:none;min-height:40px;max-height:100px;outline:none;transition:border-color .2s;overflow-y:auto;}
-.chat-input:focus{border-color:var(--accent);}
-.chat-input::placeholder{color:var(--text3);}
-.chat-send{width:38px;height:38px;border-radius:50%;background:var(--accent);border:none;color:#fff;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,transform .1s;}
-.chat-send:hover{background:#0a6aa8;transform:scale(1.05);}
-.chat-send:disabled{background:var(--bg3);color:var(--text3);cursor:not-allowed;transform:none;}
-.chat-api-note{font-size:10px;color:var(--text3);text-align:center;padding:4px 12px 8px;}
-
-/* FOOTER */
-footer{border-top:1px solid var(--border);padding:clamp(20px,4vw,32px) clamp(16px,5vw,40px);text-align:center;color:var(--text3);font-size:12px;}
+/* ─ FOOTER ─ */
+footer{border-top:1px solid var(--border);padding:clamp(20px,4vw,32px) clamp(16px,4vw,32px);text-align:center;color:var(--text3);font-size:12px;}
 footer a{color:var(--text2);text-decoration:none;}
 footer a:hover{color:var(--accent);}
-.footer-iq{display:flex;align-items:center;justify-content:center;gap:clamp(12px,3vw,24px);margin-bottom:16px;flex-wrap:wrap;}
-.footer-logo-svg{height:clamp(36px,5vw,50px);width:auto;}
-.footer-iq-info{font-size:clamp(11px,1.5vw,13px);color:var(--text2);line-height:1.9;text-align:left;}
-.footer-iq-info a{color:#0e7fc2;text-decoration:none;}
-.footer-iq-info a:hover{color:var(--accent2);}
-.footer-divider{width:100%;height:1px;background:var(--border);margin:16px 0;}
+.footer-iq{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:14px;flex-wrap:wrap;}
+.footer-logo-svg{height:clamp(34px,5vw,46px);width:auto;}
+.footer-iq-info{font-size:12px;color:var(--text2);line-height:1.9;text-align:left;}
+.footer-iq-info a{color:#0e7fc2;}
+.footer-divider{width:100%;height:1px;background:var(--border);margin:14px 0;}
 
-/* RESPONSIVE EXTRAS */
+/* ─ RESPONSIVE ─ */
 @media(max-width:640px){
   .hero-divider{display:none;}
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
-  .chart-grid.two{grid-template-columns:1fr;}
+  .chart-grid.two,.chart-grid.three{grid-template-columns:1fr;}
   .insights-grid{grid-template-columns:1fr;}
-  .nav-logo-svg{height:26px;}
+  .dept-grid{grid-template-columns:repeat(2,1fr);}
+  .filter-bar{flex-direction:column;}
+  .filter-group{min-width:100%;}
 }
 @media(max-width:380px){
   .kpi-grid{grid-template-columns:1fr 1fr;}
-  .hero-stats{gap:12px;}
 }
+
+/* ─ ANIMATIONS ─ */
+.fade-in{animation:fadeUp .4s ease forwards;}
+.count-up{transition:all .6s ease;}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 72" class="nav-logo-svg">
+      <text x="0" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#0e7fc2" letter-spacing="-1">IQ</text>
+      <text x="72" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#111827" letter-spacing="-1">DATA</text>
+      <text x="0" y="64" font-family="Arial,sans-serif" font-size="12.5" font-weight="400" fill="#6b7280" letter-spacing="0.8">Estrategia Corporativa</text>
+    </svg>
+    <div class="nav-item active" data-section="resumen" onclick="goTo('resumen')">Resumen</div>
+    <div class="nav-item" data-section="explorador" onclick="goTo('explorador')">Explorador</div>
+    <div class="nav-item" data-section="comparar" onclick="goTo('comparar')">Comparar</div>
+    <div class="nav-item" data-section="tendencias" onclick="goTo('tendencias')">Tendencias</div>
+    <div class="nav-item" data-section="hallazgos" onclick="goTo('hallazgos')">Hallazgos</div>
+  </div>
+</nav>
+
+<!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 72" class="iq-logo">
-  <text x="0" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#0e7fc2" letter-spacing="-1">IQ</text>
-  <text x="72" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#111827" letter-spacing="-1">DATA</text>
-  <text x="0" y="64" font-family="Arial,sans-serif" font-size="12.5" font-weight="400" fill="#6b7280" letter-spacing="0.8">Estrategia Corporativa</text>
-</svg>
-    <div class="hero-badge">INE · Censo Nacional 2022</div>
+      <text x="0" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#0e7fc2" letter-spacing="-1">IQ</text>
+      <text x="72" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#111827" letter-spacing="-1">DATA</text>
+      <text x="0" y="64" font-family="Arial,sans-serif" font-size="12.5" font-weight="400" fill="#6b7280" letter-spacing="0.8">Estrategia Corporativa</text>
+    </svg>
+    <div class="hero-badge">INE · Censo Nacional de Población y Viviendas 2022</div>
     <h1>Paraguay<br><em>en números</em></h1>
-    <p class="hero-sub">Análisis demográfico completo del Censo Nacional de Población y Viviendas 2022. Estructura por edad, sexo, departamento y área.</p>
+    <p class="hero-sub">Dashboard interactivo. Filtrá, comparás y explorá los datos del Censo 2022. Consultá al asistente IA para análisis personalizados.</p>
     <div class="hero-stats">
-      <div class="hero-stat"><span class="num">6.1M</span><span class="lbl">Habitantes</span></div>
+      <div class="hero-stat"><span class="num" id="statTotal">6.1M</span><span class="lbl">Habitantes</span></div>
       <div class="hero-divider"></div>
       <div class="hero-stat"><span class="num">17</span><span class="lbl">Departamentos</span></div>
       <div class="hero-divider"></div>
-      <div class="hero-stat"><span class="num">29</span><span class="lbl">Edad mediana</span></div>
+      <div class="hero-stat"><span class="num" id="statMed">29</span><span class="lbl">Edad mediana</span></div>
       <div class="hero-divider"></div>
       <div class="hero-stat"><span class="num">69%</span><span class="lbl">Área urbana</span></div>
     </div>
   </div>
 </div>
 
-<nav class="nav">
-  <div class="nav-inner">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 72" class="nav-logo-svg">
-  <text x="0" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#0e7fc2" letter-spacing="-1">IQ</text>
-  <text x="72" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#111827" letter-spacing="-1">DATA</text>
-  <text x="0" y="64" font-family="Arial,sans-serif" font-size="12.5" font-weight="400" fill="#6b7280" letter-spacing="0.8">Estrategia Corporativa</text>
-</svg>
-    <div class="nav-item active" data-section="nacional" onclick="goTo('nacional')">Nacional</div>
-    <div class="nav-item" data-section="edad" onclick="goTo('edad')">Edad</div>
-    <div class="nav-item" data-section="departamentos" onclick="goTo('departamentos')">Departamentos</div>
-    <div class="nav-item" data-section="insights" onclick="goTo('insights')">Hallazgos</div>
-    <button class="nav-chat" onclick="openChat()">💬 Consultar IA</button>
-  </div>
-</nav>
-
 <main>
-  <section id="nacional">
-    <div class="section-head">
-      <h2>Indicadores nacionales</h2>
-      <span class="section-tag">Total país</span>
-    </div>
-    <div class="kpi-grid">
-      <div class="kpi blue"><div class="kpi-label">Población total</div><div class="kpi-value">6.1M</div><div class="kpi-sub">6,109,903 habitantes</div></div>
-      <div class="kpi teal"><div class="kpi-label">Hombres</div><div class="kpi-value">50.0%</div><div class="kpi-sub">3,057,674 personas</div></div>
-      <div class="kpi purple"><div class="kpi-label">Mujeres</div><div class="kpi-value">50.0%</div><div class="kpi-sub">3,052,229 personas</div></div>
-      <div class="kpi amber"><div class="kpi-label">Edad mediana</div><div class="kpi-value">29</div><div class="kpi-sub">País con población joven</div></div>
-      <div class="kpi coral"><div class="kpi-label">Urbana</div><div class="kpi-value">69%</div><div class="kpi-sub">4,215,101 habitantes</div></div>
-      <div class="kpi green"><div class="kpi-label">Rural</div><div class="kpi-value">31%</div><div class="kpi-sub">1,894,802 habitantes</div></div>
-    </div>
-    <div class="chart-grid two">
-      <div class="chart-card">
-        <div class="chart-title">Distribución por grupo etario</div>
-        <div class="chart-desc">Tres grandes cohortes — bono demográfico activo</div>
-        <div class="legend">
-          <span><span class="leg-dot" style="background:#0e7fc2"></span>0–14 años (25%)</span>
-          <span><span class="leg-dot" style="background:#0d9e75"></span>15–64 años (66.4%)</span>
-          <span><span class="leg-dot" style="background:#d08d10"></span>65+ años (8.6%)</span>
-        </div>
-        <div class="chart-wrap" style="height:220px"><canvas id="pieAge"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <div class="chart-title">Urbano vs Rural por grupo de edad</div>
-        <div class="chart-desc">La población rural es proporcionalmente más joven</div>
-        <div class="legend">
-          <span><span class="leg-dot" style="background:#0e7fc2"></span>Urbana</span>
-          <span><span class="leg-dot" style="background:#dc4a35"></span>Rural</span>
-        </div>
-        <div class="chart-wrap" style="height:220px"><canvas id="barUrbRur"></canvas></div>
-      </div>
-    </div>
-  </section>
 
-  <section id="edad">
-    <div class="section-head">
-      <h2>Estructura por edad</h2>
-      <span class="section-tag">Pirámide demográfica</span>
+<!-- ══ SECCIÓN 1: RESUMEN INTERACTIVO ══ -->
+<section id="resumen">
+  <div class="section-head">
+    <h2>Resumen nacional</h2>
+    <span class="section-tag">Filtrá por área o región</span>
+  </div>
+
+  <!-- FILTROS PRINCIPALES -->
+  <div class="filter-bar">
+    <div class="filter-group">
+      <span class="filter-label">Área geográfica</span>
+      <div class="toggle-group">
+        <button class="toggle-opt active" onclick="setArea('total',this)">Total</button>
+        <button class="toggle-opt" onclick="setArea('urbana',this)">Urbana</button>
+        <button class="toggle-opt" onclick="setArea('rural',this)">Rural</button>
+      </div>
     </div>
-    <div class="chart-card" style="margin-bottom:clamp(10px,2vw,16px)">
-      <div class="chart-title">Composición por grupos y área geográfica</div>
-      <div class="chart-desc">Comparativa de los tres grandes grupos en cada área</div>
+    <div class="filter-group">
+      <span class="filter-label">Grupo de edad</span>
+      <select class="filter-select" id="selEdad" onchange="updateResumen()">
+        <option value="todos">Todos los grupos</option>
+        <option value="0-14">0–14 años (niños)</option>
+        <option value="15-64">15–64 años (activos)</option>
+        <option value="65+">65+ años (adultos mayores)</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Visualización</span>
+      <div class="toggle-group">
+        <button class="toggle-opt active" id="vizTotal" onclick="setViz('total',this)">Totales</button>
+        <button class="toggle-opt" id="vizPct" onclick="setViz('pct',this)">Porcentajes</button>
+      </div>
+    </div>
+    <button class="filter-btn secondary" onclick="resetFilters()">↺ Limpiar</button>
+  </div>
+
+  <!-- KPIs DINÁMICOS -->
+  <div class="kpi-grid">
+    <div class="kpi blue"><div class="kpi-label">Población filtrada</div><div class="kpi-value" id="kpiPob">6,109,903</div><div class="kpi-sub" id="kpiPobSub">Total país</div></div>
+    <div class="kpi teal"><div class="kpi-label">Hombres</div><div class="kpi-value" id="kpiH">3,057,674</div><div class="kpi-sub" id="kpiHSub">50.0% del total</div></div>
+    <div class="kpi purple"><div class="kpi-label">Mujeres</div><div class="kpi-value" id="kpiM">3,052,229</div><div class="kpi-sub" id="kpiMSub">50.0% del total</div></div>
+    <div class="kpi amber"><div class="kpi-label">Edad mediana</div><div class="kpi-value" id="kpiEdad">29</div><div class="kpi-sub">años</div></div>
+    <div class="kpi coral"><div class="kpi-label">% Urbana</div><div class="kpi-value" id="kpiUrb">69%</div><div class="kpi-sub">4,215,101 hab.</div></div>
+    <div class="kpi green"><div class="kpi-label">% Rural</div><div class="kpi-value" id="kpiRur">31%</div><div class="kpi-sub">1,894,802 hab.</div></div>
+  </div>
+
+  <div class="chart-grid two">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Distribución por grupo etario</div>
+          <div class="chart-desc">Composición de la población seleccionada</div>
+        </div>
+        <div class="chart-actions">
+          <button class="chart-btn active" onclick="setPieType('doughnut',this)">Dona</button>
+          <button class="chart-btn" onclick="setPieType('pie',this)">Torta</button>
+        </div>
+      </div>
       <div class="legend">
         <span><span class="leg-dot" style="background:#0e7fc2"></span>0–14 años</span>
         <span><span class="leg-dot" style="background:#0d9e75"></span>15–64 años</span>
         <span><span class="leg-dot" style="background:#d08d10"></span>65+ años</span>
       </div>
-      <div class="chart-wrap" style="height:260px"><canvas id="barAreaEdad"></canvas></div>
+      <div class="chart-wrap" style="height:220px"><canvas id="pieAge"></canvas></div>
     </div>
-    <div class="chart-grid two">
-      <div class="chart-card">
-        <div class="chart-title">Niños 0–14 años por área</div>
-        <div class="chart-desc">Lo rural tiene mayor proporción joven</div>
-        <div class="chart-wrap" style="height:190px"><canvas id="pieUrb"></canvas></div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Hombres vs Mujeres por grupo</div>
+          <div class="chart-desc">Distribución por sexo según edad</div>
+        </div>
+        <div class="chart-actions">
+          <button class="chart-btn active" onclick="setBarMode('grouped',this)">Agrupado</button>
+          <button class="chart-btn" onclick="setBarMode('stacked',this)">Apilado</button>
+        </div>
       </div>
-      <div class="chart-card">
-        <div class="chart-title">Adultos mayores 65+ por área</div>
-        <div class="chart-desc">Distribución entre ambas áreas</div>
-        <div class="chart-wrap" style="height:190px"><canvas id="pieRur"></canvas></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="departamentos">
-    <div class="section-head">
-      <h2>Análisis por departamento</h2>
-      <span class="section-tag">18 unidades territoriales</span>
-    </div>
-    <div class="chart-card" style="margin-bottom:clamp(10px,2vw,16px)">
-      <div class="chart-title">Población por departamento (top 12)</div>
-      <div class="chart-desc">Central, Alto Paraná e Itapúa dominan la distribución</div>
       <div class="legend">
         <span><span class="leg-dot" style="background:#0e7fc2"></span>Hombres</span>
         <span><span class="leg-dot" style="background:#6d5fd4"></span>Mujeres</span>
       </div>
-      <div class="chart-wrap" style="height:300px"><canvas id="barDept"></canvas></div>
+      <div class="chart-wrap" style="height:220px"><canvas id="barSexo"></canvas></div>
     </div>
-    <div class="chart-card" style="margin-bottom:clamp(10px,2vw,16px)">
-      <div class="chart-title">Edad mediana por departamento</div>
-      <div class="chart-desc">Verde = más joven · Ámbar = medio · Rojo = más envejecido</div>
-      <div class="chart-wrap" style="height:340px"><canvas id="barEdad"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Tabla completa de departamentos</div>
-      <div class="chart-desc">Todos los datos del Cuadro 1 — Censo 2022 · Deslizá horizontalmente si es necesario</div>
-      <div class="table-scroll">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>#</th><th>Departamento</th>
-              <th style="text-align:right">Total</th>
-              <th style="text-align:right">Hombres</th>
-              <th style="text-align:right">Mujeres</th>
-              <th style="text-align:right">Edad med.</th>
-              <th>% País</th>
-            </tr>
-          </thead>
-          <tbody id="deptBody"></tbody>
-        </table>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 2: EXPLORADOR ══ -->
+<section id="explorador">
+  <div class="section-head">
+    <h2>Explorador de departamentos</h2>
+    <span class="section-tag">Hacé clic en un departamento para ver detalles</span>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-group" style="flex:2">
+      <span class="filter-label">Buscar departamento</span>
+      <div class="search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" class="search-input" id="searchDept" placeholder="Ej: Central, Itapúa..." oninput="filterDeptCards()">
       </div>
     </div>
-  </section>
+    <div class="filter-group">
+      <span class="filter-label">Ordenar por</span>
+      <select class="filter-select" id="sortDept" onchange="renderDeptCards()">
+        <option value="pop-desc">Mayor población</option>
+        <option value="pop-asc">Menor población</option>
+        <option value="med-asc">Más joven</option>
+        <option value="med-desc">Más envejecido</option>
+        <option value="alpha">Alfabético</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Edad mediana</span>
+      <div class="slider-wrap">
+        <input type="range" id="sliderMed" min="24" max="36" value="36" oninput="filterByMed(this.value)">
+        <div class="slider-labels"><span>24</span><span id="sliderVal">Todos</span><span>36</span></div>
+      </div>
+    </div>
+  </div>
 
-  <section id="insights">
-    <div class="section-head">
-      <h2>Hallazgos clave</h2>
-      <span class="section-tag">Análisis interpretativo</span>
+  <div class="dept-grid" id="deptGrid"></div>
+
+  <div class="dept-detail" id="deptDetail">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <h3 style="font-family:'DM Serif Display',serif;font-size:22px;" id="detailName">Departamento</h3>
+      <button onclick="document.getElementById('deptDetail').classList.remove('visible')" style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--text2);">✕ Cerrar</button>
     </div>
-    <div class="insights-grid">
-      <div class="insight"><div class="insight-icon">⚖️</div><h4>Paridad de género casi perfecta</h4><p>La diferencia entre hombres y mujeres es de solo 5,445 personas sobre 6.1 millones — ratio de 1.002, una de las paridades más equilibradas de Sudamérica.</p><span class="insight-tag tag-info">Equilibrio de género</span></div>
-      <div class="insight"><div class="insight-icon">🏙️</div><h4>Concentración metropolitana</h4><p>Central y Asunción juntas concentran 2.35 millones de personas — el 38.4% del país en apenas dos unidades territoriales.</p><span class="insight-tag tag-warn">Concentración</span></div>
-      <div class="insight"><div class="insight-icon">🌱</div><h4>Bono demográfico activo</h4><p>Con edad mediana de 29 años y el 66.4% en edad laboral (15–64), Paraguay tiene un bono demográfico que puede impulsar el crecimiento.</p><span class="insight-tag tag-success">Oportunidad</span></div>
-      <div class="insight"><div class="insight-icon">👴</div><h4>Ñeembucú: el más envejecido</h4><p>Edad mediana de 35 años. Desmochados tiene 48 años — el valor más alto del país. Patrón asociado a emigración de jóvenes hacia centros urbanos.</p><span class="insight-tag tag-warn">Envejecimiento</span></div>
-      <div class="insight"><div class="insight-icon">⚡</div><h4>Canindeyú: la frontera más joven</h4><p>Edad mediana de 25 años. Maracaná registra 22 años — el distrito más joven. Alta fecundidad y colonias recientes explican este perfil.</p><span class="insight-tag tag-success">Población joven</span></div>
-      <div class="insight"><div class="insight-icon">🌾</div><h4>Desequilibrio masculino en el Chaco</h4><p>Alto Paraguay registra 9,197 hombres vs 7,998 mujeres — ratio de 1.15, el más alto del país. Vinculado a actividades ganaderas rurales.</p><span class="insight-tag tag-amber">Ratio de género</span></div>
-      <div class="insight"><div class="insight-icon">🌍</div><h4>Urbanización desigual</h4><p>Asunción y varios distritos de Central son 100% urbanos. En contraste, San Pedro tiene el 74.6% de población rural.</p><span class="insight-tag tag-warn">Brecha territorial</span></div>
-      <div class="insight"><div class="insight-icon">📈</div><h4>Adultos mayores superan el medio millón</h4><p>Con 523,660 personas de 65+ años (8.6%), Paraguay comienza a enfrentar presiones para el sistema de salud y jubilaciones.</p><span class="insight-tag tag-info">Transición demográfica</span></div>
+    <div class="dept-detail-grid">
+      <div class="dept-stat"><div class="dept-stat-label">Población total</div><div class="dept-stat-value" id="detailPop">—</div></div>
+      <div class="dept-stat"><div class="dept-stat-label">Hombres</div><div class="dept-stat-value" id="detailH" style="color:#0e7fc2">—</div></div>
+      <div class="dept-stat"><div class="dept-stat-label">Mujeres</div><div class="dept-stat-value" id="detailM" style="color:#6d5fd4">—</div></div>
+      <div class="dept-stat"><div class="dept-stat-label">Edad mediana</div><div class="dept-stat-value" id="detailMed">—</div></div>
+      <div class="dept-stat"><div class="dept-stat-label">% del país</div><div class="dept-stat-value" id="detailPct">—</div></div>
+      <div class="dept-stat"><div class="dept-stat-label">Ratio H/M</div><div class="dept-stat-value" id="detailRatio">—</div></div>
     </div>
-  </section>
+    <div class="chart-wrap" style="height:180px"><canvas id="detailChart"></canvas></div>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 3: COMPARAR ══ -->
+<section id="comparar">
+  <div class="section-head">
+    <h2>Comparar departamentos</h2>
+    <span class="section-tag">Seleccioná hasta 4 para comparar</span>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-group" style="flex:2">
+      <span class="filter-label">Seleccionar departamentos (máx 4)</span>
+      <select class="filter-select" id="selCompare" onchange="addToCompare(this.value)">
+        <option value="">— Elegí un departamento —</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Métrica</span>
+      <select class="filter-select" id="selMetrica" onchange="updateCompare()">
+        <option value="total">Población total</option>
+        <option value="pct_ninos">% Niños (0-14)</option>
+        <option value="pct_activos">% Activos (15-64)</option>
+        <option value="pct_mayores">% Adultos mayores (65+)</option>
+        <option value="med">Edad mediana</option>
+        <option value="ratio">Ratio H/M</option>
+      </select>
+    </div>
+    <button class="filter-btn secondary" onclick="clearCompare()">✕ Limpiar selección</button>
+  </div>
+
+  <div class="compare-bar visible" id="compareBar">
+    <span>Comparando:</span>
+    <div class="compare-selected" id="compareChips"></div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title" id="compareTitle">Seleccioná departamentos para comparar</div>
+    <div class="chart-desc">Podés elegir hasta 4 departamentos y cambiar la métrica</div>
+    <div class="chart-wrap" style="height:280px"><canvas id="compareChart"></canvas></div>
+  </div>
+
+  <div class="chart-grid two" style="margin-top:16px" id="compareExtra" style="display:none">
+    <div class="chart-card">
+      <div class="chart-title">Distribución por edad — comparativa</div>
+      <div class="chart-wrap" style="height:220px"><canvas id="compareAge"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Género por departamento seleccionado</div>
+      <div class="chart-wrap" style="height:220px"><canvas id="compareGender"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 4: TENDENCIAS ══ -->
+<section id="tendencias">
+  <div class="section-head">
+    <h2>Tendencias y distribución</h2>
+    <span class="section-tag">Análisis avanzado</span>
+  </div>
+
+  <div class="chart-grid two">
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Edad mediana por departamento</div>
+          <div class="chart-desc">De más joven a más envejecido</div>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:360px"><canvas id="barEdad"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Ranking de población</div>
+          <div class="chart-desc">Los 18 departamentos ordenados</div>
+        </div>
+        <div class="chart-actions">
+          <button class="chart-btn active" onclick="setPobViz('bar',this)">Barras</button>
+          <button class="chart-btn" onclick="setPobViz('horizontalBar',this)">Horizontal</button>
+        </div>
+      </div>
+      <div class="chart-wrap" style="height:360px"><canvas id="rankPob"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-card" style="margin-top:16px">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">Tabla interactiva — todos los departamentos</div>
+        <div class="chart-desc">Hacé clic en las columnas para ordenar</div>
+      </div>
+      <div class="search-wrap" style="width:200px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" class="search-input" placeholder="Filtrar..." oninput="filterTable(this.value)">
+      </div>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table" id="mainTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable('rank')"># <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('name')">Departamento <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('total')" class="sorted">Población <span class="sort-icon">↓</span></th>
+            <th onclick="sortTable('h')">Hombres <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('m')">Mujeres <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('med')">Edad med. <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('ratio')">Ratio H/M <span class="sort-icon">↕</span></th>
+            <th>% País</th>
+          </tr>
+        </thead>
+        <tbody id="mainTbody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECCIÓN 5: HALLAZGOS ══ -->
+<section id="hallazgos">
+  <div class="section-head">
+    <h2>Hallazgos clave</h2>
+    <span class="section-tag">Análisis interpretativo del Censo 2022</span>
+  </div>
+  <div class="insights-grid">
+    <div class="insight"><div class="insight-icon">⚖️</div><h4>Paridad de género casi perfecta</h4><p>La diferencia entre hombres y mujeres es de solo 5,445 personas sobre 6.1 millones — ratio de 1.002, una de las paridades más equilibradas de Sudamérica.</p><span class="insight-tag tag-info">Equilibrio de género</span></div>
+    <div class="insight"><div class="insight-icon">🏙️</div><h4>Concentración metropolitana</h4><p>Central y Asunción juntas concentran 2.35 millones — el 38.4% del país en apenas dos unidades territoriales. Alta presión sobre servicios.</p><span class="insight-tag tag-warn">Concentración</span></div>
+    <div class="insight"><div class="insight-icon">🌱</div><h4>Bono demográfico activo</h4><p>Con edad mediana de 29 años y el 66.4% en edad laboral, Paraguay tiene un bono demográfico que puede impulsar el crecimiento económico.</p><span class="insight-tag tag-success">Oportunidad</span></div>
+    <div class="insight"><div class="insight-icon">👴</div><h4>Ñeembucú: el más envejecido</h4><p>Edad mediana de 35 años. Desmochados tiene 48 años — el valor más alto del país. Emigración de jóvenes hacia centros urbanos.</p><span class="insight-tag tag-warn">Envejecimiento</span></div>
+    <div class="insight"><div class="insight-icon">⚡</div><h4>Canindeyú: la frontera más joven</h4><p>Edad mediana de 25 años. Maracaná registra 22 años. Alta fecundidad y colonias recientes explican este perfil demográfico.</p><span class="insight-tag tag-success">Población joven</span></div>
+    <div class="insight"><div class="insight-icon">🌾</div><h4>Desequilibrio masculino en el Chaco</h4><p>Alto Paraguay registra ratio H/M de 1.15 — el más alto del país. Vinculado a actividades ganaderas y laborales masculinizadas.</p><span class="insight-tag tag-amber">Ratio de género</span></div>
+    <div class="insight"><div class="insight-icon">🌍</div><h4>Urbanización desigual</h4><p>Asunción es 100% urbana. San Pedro tiene el 74.6% de población rural — una brecha de 74 puntos entre los extremos del país.</p><span class="insight-tag tag-warn">Brecha territorial</span></div>
+    <div class="insight"><div class="insight-icon">📈</div><h4>Transición demográfica en curso</h4><p>Con 523,660 personas de 65+ años (8.6%), Paraguay comienza a enfrentar presiones para el sistema de salud y pensiones.</p><span class="insight-tag tag-info">Transición</span></div>
+  </div>
+</section>
+
 </main>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-iq">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 72" class="footer-logo-svg">
-  <text x="0" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#0e7fc2" letter-spacing="-1">IQ</text>
-  <text x="72" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#111827" letter-spacing="-1">DATA</text>
-  <text x="0" y="64" font-family="Arial,sans-serif" font-size="12.5" font-weight="400" fill="#6b7280" letter-spacing="0.8">Estrategia Corporativa</text>
-</svg>
+      <text x="0" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#0e7fc2" letter-spacing="-1">IQ</text>
+      <text x="72" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#111827" letter-spacing="-1">DATA</text>
+      <text x="0" y="64" font-family="Arial,sans-serif" font-size="12.5" font-weight="400" fill="#6b7280" letter-spacing="0.8">Estrategia Corporativa</text>
+    </svg>
     <div class="footer-iq-info">
       <strong style="color:var(--text);font-size:13px;">IQ DATA · Estrategia Corporativa</strong><br>
-      <a href="http://www.iqdata.com.py" target="_blank">www.iqdata.com.py</a> &nbsp;·&nbsp;
-      <a href="tel:+595994135989">0994 135 989</a> &nbsp;·&nbsp;
-      Asunción, Paraguay
+      <a href="http://www.iqdata.com.py" target="_blank">www.iqdata.com.py</a> · <a href="tel:+595994135989">0994 135 989</a> · Asunción, Paraguay
     </div>
   </div>
   <div class="footer-divider"></div>
   <p>Fuente: INE Paraguay · Resultados Finales — Censo Nacional de Población y Viviendas 2022</p>
 </footer>
 
-<button class="fab" onclick="openChat()" title="Consultar al asistente IA">
-  💬<span class="fab-badge"></span>
-</button>
-
-<div class="chat-overlay" id="chatOverlay" onclick="closeChatBg(event)">
-  <div class="chat-panel">
-    <div class="chat-header">
-      <div class="chat-avatar">🧠</div>
       <div class="chat-header-info">
         <strong>Asistente demográfico</strong>
         <span>● En línea · Datos Censo 2022</span>
@@ -393,15 +534,15 @@ footer a:hover{color:var(--accent);}
     </div>
     <div class="chat-messages" id="chatMessages">
       <div class="msg ai">
-        <div class="msg-bubble">¡Hola! Soy tu asistente especializado en el <strong>Censo Nacional de Paraguay 2022</strong>. Puedo responderte sobre población, edad, departamentos, zonas urbanas y rurales, y más.<br><br>¿Qué querés saber?</div>
+        <div class="msg-bubble">¡Hola! Soy tu asistente del <strong>Censo Paraguay 2022</strong>. Podés preguntarme sobre cualquier dato: departamentos, edades, género, zonas urbanas y rurales.<br><br>¿Qué querés explorar?</div>
         <div class="msg-time">ahora</div>
       </div>
     </div>
     <div class="chat-suggestions" id="suggestions">
-      <div class="suggestion" onclick="sendSugg(this)">¿Cuál es el departamento más poblado?</div>
-      <div class="suggestion" onclick="sendSugg(this)">¿Dónde hay más desequilibrio de género?</div>
-      <div class="suggestion" onclick="sendSugg(this)">¿Qué departamentos son más rurales?</div>
-      <div class="suggestion" onclick="sendSugg(this)">¿Cómo es la población joven en Paraguay?</div>
+      <div class="suggestion" onclick="sendSugg(this)">¿Cuál es el departamento más joven?</div>
+      <div class="suggestion" onclick="sendSugg(this)">Compará Central con Alto Paraná</div>
+      <div class="suggestion" onclick="sendSugg(this)">¿Dónde hay más mujeres que hombres?</div>
+      <div class="suggestion" onclick="sendSugg(this)">¿Cómo es la ruralidad en Paraguay?</div>
     </div>
     <div class="chat-input-area">
       <textarea class="chat-input" id="chatInput" placeholder="Preguntá sobre el censo..." rows="1"
@@ -414,153 +555,373 @@ footer a:hover{color:var(--accent);}
 </div>
 
 <script>
-const CENSO_CONTEXT = `Sos un asistente experto en demografía paraguaya, especializado en el Censo Nacional de Población y Viviendas 2022 del INE (Instituto Nacional de Estadística de Paraguay). Respondé en español, de forma concisa, clara y con datos precisos.
-
-DATOS CLAVE DEL CENSO 2022:
-
-TOTAL PAÍS:
-- Población total: 6,109,903
-- Hombres: 3,057,674 (50.0%)
-- Mujeres: 3,052,229 (50.0%)
-- Edad mediana nacional: 29 años
-- Área urbana: 4,215,101 (69%)
-- Área rural: 1,894,802 (31%)
-
-GRUPOS DE EDAD (Total país):
-- 0-14 años: 1,529,030 (25.0%) — Urbana: 1,008,300 | Rural: 520,730
-- 15-64 años: 4,057,213 (66.4%) — Urbana: 2,861,356 | Rural: 1,195,857
-- 65+ años: 523,660 (8.6%) — Urbana: 345,445 | Rural: 178,215
-
-DEPARTAMENTOS (Población, hombres, mujeres, edad mediana):
-- Asunción: 462,241 | H: 221,222 | M: 241,019 | Med: 33 años | 100% urbana
-- Concepción: 206,181 | H: 102,293 | M: 103,888 | Med: 27 años | Urbana: 54.1%
-- San Pedro: 355,175 | H: 180,765 | M: 174,410 | Med: 28 años | Urbana: 25.4% (muy rural)
-- Cordillera: 268,037 | H: 137,118 | M: 130,919 | Med: 31 años | Urbana: 40.4%
-- Guairá: 179,555 | H: 90,197 | M: 89,358 | Med: 31 años | Urbana: 42.9%
-- Caaguazú: 431,519 | H: 218,731 | M: 212,788 | Med: 28 años | Urbana: 44.1%
-- Caazapá: 139,479 | H: 71,157 | M: 68,322 | Med: 29 años | Urbana: 23.8% (muy rural)
-- Itapúa: 449,642 | H: 228,057 | M: 221,585 | Med: 29 años | Urbana: 50.5%
-- Misiones: 111,142 | H: 55,756 | M: 55,386 | Med: 31 años | Urbana: 60.7%
-- Paraguarí: 200,472 | H: 100,725 | M: 99,747 | Med: 33 años | Urbana: 36.6%
-- Alto Paraná: 763,702 | H: 384,226 | M: 379,476 | Med: 28 años | Urbana: 81.4%
-- Central: 1,883,927 | H: 933,196 | M: 950,731 | Med: 29 años | Urbana: 94.6%
-- Ñeembucú: 76,719 | H: 38,355 | M: 38,364 | Med: 35 años | Urbana: 67.8%
-- Amambay: 179,412 | H: 88,481 | M: 90,931 | Med: 27 años | Urbana: 77.5%
-- Canindeyú: 191,114 | H: 97,403 | M: 93,711 | Med: 25 años | Urbana: 38.7% (el más joven)
-- Presidente Hayes: 123,313 | H: 63,848 | M: 59,465 | Med: 27 años | Urbana: 48.9%
-- Boquerón: 71,078 | H: 36,947 | M: 34,131 | Med: 26 años | Urbana: 51.4%
-- Alto Paraguay: 17,195 | H: 9,197 | M: 7,998 | Med: 26 años | Urbana: 50.7% | mayor desequilibrio de género del país (ratio 1.15)
-
-HALLAZGOS CLAVE:
-- Departamento más poblado: Central (1,883,927)
-- Departamento menos poblado: Alto Paraguay (17,195)
-- Ciudad más grande dentro de un departamento: Ciudad del Este (325,819) en Alto Paraná
-- Departamento más joven: Canindeyú (med. 25 años); distrito más joven: Maracaná (22 años)
-- Departamento más envejecido: Ñeembucú (med. 35 años); distrito más envejecido: Desmochados (48 años)
-- Mayor desequilibrio de género: Alto Paraguay (ratio H/M: 1.15)
-- Departamentos 100% urbanos: Asunción, (Areguá, Capiatá, Fernando de la Mora en Central)
-- Departamentos más rurales: San Pedro (74.6% rural), Caazapá (76.2% rural)
-- Central + Asunción = 2,346,168 personas = 38.4% del total nacional
-
-Respondé siempre con datos del censo. Si te preguntan sobre temas no relacionados al censo, redirigí amablemente. Usa números concretos, porcentajes y comparaciones. Podés usar emojis ocasionalmente. Sé directo y útil.`;
-
+/* ══ DATA ══ */
 const DEPTS = [
-  { name:'Asunción',       total:462241,  h:221222, m:241019, med:33 },
-  { name:'Central',        total:1883927, h:933196, m:950731, med:29 },
-  { name:'Alto Paraná',    total:763702,  h:384226, m:379476, med:28 },
-  { name:'Itapúa',         total:449642,  h:228057, m:221585, med:29 },
-  { name:'Caaguazú',       total:431519,  h:218731, m:212788, med:28 },
-  { name:'San Pedro',      total:355175,  h:180765, m:174410, med:28 },
-  { name:'Cordillera',     total:268037,  h:137118, m:130919, med:31 },
-  { name:'Concepción',     total:206181,  h:102293, m:103888, med:27 },
-  { name:'Paraguarí',      total:200472,  h:100725, m:99747,  med:33 },
-  { name:'Canindeyú',      total:191114,  h:97403,  m:93711,  med:25 },
-  { name:'Amambay',        total:179412,  h:88481,  m:90931,  med:27 },
-  { name:'Guairá',         total:179555,  h:90197,  m:89358,  med:31 },
-  { name:'Caazapá',        total:139479,  h:71157,  m:68322,  med:29 },
-  { name:'Pdte. Hayes',    total:123313,  h:63848,  m:59465,  med:27 },
-  { name:'Misiones',       total:111142,  h:55756,  m:55386,  med:31 },
-  { name:'Ñeembucú',       total:76719,   h:38355,  m:38364,  med:35 },
-  { name:'Boquerón',       total:71078,   h:36947,  m:34131,  med:26 },
-  { name:'Alto Paraguay',  total:17195,   h:9197,   m:7998,   med:26 },
+  {name:'Asunción',     total:462241,  h:221222, m:241019, med:33, urb:462241, rur:0,     j:88629,  a:317525, v:56087},
+  {name:'Central',      total:1883927, h:933196, m:950731, med:29, urb:1782097,rur:101830, j:446973, a:1289874,v:147080},
+  {name:'Alto Paraná',  total:763702,  h:384226, m:379476, med:28, urb:621636, rur:142066, j:202551, a:515015, v:46136},
+  {name:'Itapúa',       total:449642,  h:228057, m:221585, med:29, urb:226887, rur:222755, j:113778, a:295452, v:40412},
+  {name:'Caaguazú',     total:431519,  h:218731, m:212788, med:28, urb:190506, rur:241013, j:117387, a:275820, v:38312},
+  {name:'San Pedro',    total:355175,  h:180765, m:174410, med:28, urb:90187,  rur:264988, j:100267, a:223898, v:31010},
+  {name:'Cordillera',   total:268037,  h:137118, m:130919, med:31, urb:108382, rur:159655, j:63187,  a:176105, v:28745},
+  {name:'Concepción',   total:206181,  h:102293, m:103888, med:27, urb:111606, rur:94575,  j:59072,  a:129657, v:17452},
+  {name:'Paraguarí',    total:200472,  h:100725, m:99747,  med:33, urb:73320,  rur:127152, j:45591,  a:128270, v:26611},
+  {name:'Canindeyú',    total:191114,  h:97403,  m:93711,  med:25, urb:73898,  rur:117216, j:57655,  a:123418, v:10041},
+  {name:'Amambay',      total:179412,  h:88481,  m:90931,  med:27, urb:139019, rur:40393,  j:50785,  a:116818, v:11809},
+  {name:'Guairá',       total:179555,  h:90197,  m:89358,  med:31, urb:77053,  rur:102502, j:42695,  a:117484, v:19376},
+  {name:'Caazapá',      total:139479,  h:71157,  m:68322,  med:29, urb:33219,  rur:106260, j:38589,  a:86568,  v:14322},
+  {name:'Pdte. Hayes',  total:123313,  h:63848,  m:59465,  med:27, urb:60337,  rur:62976,  j:34384,  a:80514,  v:8415},
+  {name:'Misiones',     total:111142,  h:55756,  m:55386,  med:31, urb:67420,  rur:43722,  j:26323,  a:72764,  v:12055},
+  {name:'Ñeembucú',     total:76719,   h:38355,  m:38364,  med:35, urb:52031,  rur:24688,  j:15642,  a:50391,  v:10686},
+  {name:'Boquerón',     total:71078,   h:36947,  m:34131,  med:26, urb:36540,  rur:34538,  j:20275,  a:46820,  v:3983},
+  {name:'Alto Paraguay',total:17195,   h:9197,   m:7998,   med:26, urb:8722,   rur:8473,   j:5247,   a:10820,  v:1128},
 ];
+const TOTAL = 6109903;
 
-/* ── CHARTS ── */
+/* ══ STATE ══ */
+let state = { area:'total', edad:'todos', viz:'total', pieType:'doughnut', barMode:'grouped' };
+let compareList = [];
+let sortCol = 'total', sortDir = -1;
+let detailChartRef = null, compareChartRef = null, compareAgeRef = null, compareGenderRef = null;
+
+/* ══ CHART REFS ══ */
+let chartPieAge, chartBarSexo, chartBarEdad, chartRankPob;
+
 Chart.defaults.color = '#4b5563';
 Chart.defaults.font.family = "'DM Sans', sans-serif";
 Chart.defaults.font.size = 12;
 const gGrid = 'rgba(0,0,0,0.06)';
 
-new Chart(document.getElementById('pieAge'),{
-  type:'doughnut',
-  data:{labels:['0–14 años','15–64 años','65+ años'],datasets:[{data:[1529030,4057213,523660],backgroundColor:['#0e7fc2','#0d9e75','#d08d10'],borderWidth:0,hoverOffset:6}]},
-  options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw.toLocaleString('es-PY')} (${(ctx.raw/6109903*100).toFixed(1)}%)`}}}}
-});
-
-new Chart(document.getElementById('barUrbRur'),{
-  type:'bar',
-  data:{labels:['0–14 años','15–64 años','65+ años'],datasets:[
-    {label:'Urbana',data:[1008300,2861356,345445],backgroundColor:'#0e7fc2',borderRadius:4},
-    {label:'Rural',data:[520730,1195857,178215],backgroundColor:'#dc4a35',borderRadius:4}
-  ]},
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:gGrid},ticks:{color:'#4b5563'}},y:{grid:{color:gGrid},ticks:{color:'#4b5563',callback:v=>(v/1e6).toFixed(1)+'M'}}}}
-});
-
-new Chart(document.getElementById('barAreaEdad'),{
-  type:'bar',
-  data:{
-    labels:['Total país','Asunción','Central','Alto Paraná','San Pedro','Canindeyú'],
-    datasets:[
-      {label:'0–14 años',data:[25.0,19.2,23.7,26.5,28.2,30.2],backgroundColor:'#0e7fc2',borderRadius:3},
-      {label:'15–64 años',data:[66.4,68.7,68.5,67.4,63.0,64.6],backgroundColor:'#0d9e75',borderRadius:3},
-      {label:'65+ años',data:[8.6,12.1,7.8,6.0,8.7,5.3],backgroundColor:'#d08d10',borderRadius:3}
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw}%`}}},scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#4b5563'}},y:{stacked:true,grid:{color:gGrid},ticks:{color:'#4b5563',callback:v=>v+'%'}}}}
-});
-
-new Chart(document.getElementById('pieUrb'),{type:'doughnut',data:{labels:['Urbana','Rural'],datasets:[{data:[1008300,520730],backgroundColor:['#0e7fc2','#dc4a35'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${(ctx.raw/1529030*100).toFixed(1)}%`}}}}});
-new Chart(document.getElementById('pieRur'),{type:'doughnut',data:{labels:['Urbana','Rural'],datasets:[{data:[345445,178215],backgroundColor:['#d08d10','#6d5fd4'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${(ctx.raw/523660*100).toFixed(1)}%`}}}}});
-
-const sorted=[...DEPTS].sort((a,b)=>b.total-a.total);
-new Chart(document.getElementById('barDept'),{
-  type:'bar',
-  data:{labels:sorted.slice(0,12).map(d=>d.name),datasets:[
-    {label:'Hombres',data:sorted.slice(0,12).map(d=>d.h),backgroundColor:'#0e7fc2',borderRadius:4},
-    {label:'Mujeres',data:sorted.slice(0,12).map(d=>d.m),backgroundColor:'#6d5fd4',borderRadius:4}
-  ]},
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#4b5563',maxRotation:35}},y:{stacked:true,grid:{color:gGrid},ticks:{color:'#4b5563',callback:v=>v>=1e6?(v/1e6).toFixed(1)+'M':(v/1000)+'k'}}}}
-});
-
-const byMed=[...DEPTS].sort((a,b)=>b.med-a.med);
-new Chart(document.getElementById('barEdad'),{
-  type:'bar',
-  data:{labels:byMed.map(d=>d.name),datasets:[{label:'Edad mediana',data:byMed.map(d=>d.med),backgroundColor:byMed.map(d=>d.med>=33?'#dc4a35':d.med<=27?'#0d9e75':'#d08d10'),borderRadius:4}]},
-  options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw} años`}}},scales:{x:{min:20,grid:{color:gGrid},ticks:{color:'#4b5563'}},y:{grid:{display:false},ticks:{color:'#4b5563'}}}}
-});
-
-const maxPop=Math.max(...DEPTS.map(d=>d.total));
-const tb=document.getElementById('deptBody');
-sorted.forEach((d,i)=>{
-  const pct=(d.total/6109903*100).toFixed(1);
-  const bw=Math.round(d.total/maxPop*100);
-  tb.innerHTML+=`<tr>
-    <td class="rank">${i+1}</td>
-    <td style="font-weight:500;color:var(--text)">${d.name}</td>
-    <td class="num-cell">${d.total.toLocaleString('es-PY')}</td>
-    <td class="num-cell" style="color:#0e7fc2">${d.h.toLocaleString('es-PY')}</td>
-    <td class="num-cell" style="color:#6d5fd4">${d.m.toLocaleString('es-PY')}</td>
-    <td class="num-cell" style="color:${d.med>=33?'#dc4a35':d.med<=27?'#0d9e75':'#d08d10'}">${d.med}</td>
-    <td style="min-width:80px"><div class="mini-bar" style="width:${bw}%"></div><span class="pct-lbl">${pct}%</span></td>
-  </tr>`;
-});
-
-/* ── NAV SCROLL ── */
-function goTo(id){
-  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+/* ══ DATA HELPERS ══ */
+function getFiltered() {
+  return DEPTS.map(d => {
+    let pop = d.total, h = d.h, m = d.m;
+    if (state.area === 'urbana') { pop = d.urb; h = Math.round(d.h * d.urb/d.total); m = pop - h; }
+    if (state.area === 'rural')  { pop = d.rur; h = Math.round(d.h * d.rur/d.total); m = pop - h; }
+    if (state.edad === '0-14')   { pop = d.j; h = Math.round(d.h * d.j/d.total); m = pop - h; }
+    if (state.edad === '15-64')  { pop = d.a; h = Math.round(d.h * d.a/d.total); m = pop - h; }
+    if (state.edad === '65+')    { pop = d.v; h = Math.round(d.h * d.v/d.total); m = pop - h; }
+    return {...d, fPop:pop, fH:h, fM:m};
+  });
 }
-const navItems=document.querySelectorAll('.nav-item[data-section]');
-const observer=new IntersectionObserver(entries=>{
+
+function getTotals() {
+  const fd = getFiltered();
+  const pop = fd.reduce((s,d)=>s+d.fPop,0);
+  const h = fd.reduce((s,d)=>s+d.fH,0);
+  const m = fd.reduce((s,d)=>s+d.fM,0);
+  let urb,rur;
+  if (state.area==='total')  { urb=4215101; rur=1894802; }
+  else if (state.area==='urbana') { urb=pop; rur=0; }
+  else { urb=0; rur=pop; }
+  const medArr = DEPTS.map(d=>d.med);
+  const med = Math.round(medArr.reduce((a,b)=>a+b,0)/medArr.length);
+  return {pop,h,m,urb,rur,med};
+}
+
+function getAgeData() {
+  if (state.edad !== 'todos') return null;
+  let j,a,v;
+  if (state.area==='total')  { j=1529030; a=4057213; v=523660; }
+  else if (state.area==='urbana') { j=1008300; a=2861356; v=345445; }
+  else { j=520730; a=1195857; v=178215; }
+  return [j,a,v];
+}
+
+/* ══ KPI UPDATE ══ */
+function updateResumen() {
+  const t = getTotals();
+  const fmt = n => n >= 1e6 ? (n/1e6).toFixed(2)+'M' : n.toLocaleString('es-PY');
+  animateVal('kpiPob', fmt(t.pop));
+  animateVal('kpiH', fmt(t.h));
+  animateVal('kpiM', fmt(t.m));
+  animateVal('kpiUrb', state.area==='rural' ? '0%' : Math.round(t.urb/(t.pop||1)*100)+'%');
+  animateVal('kpiRur', state.area==='urbana' ? '0%' : Math.round(t.rur/(t.pop||1)*100)+'%');
+  document.getElementById('kpiPobSub').textContent = state.area.charAt(0).toUpperCase()+state.area.slice(1)+' · '+state.edad;
+  document.getElementById('kpiHSub').textContent = Math.round(t.h/(t.pop||1)*100).toFixed(1)+'% del total';
+  document.getElementById('kpiMSub').textContent = Math.round(t.m/(t.pop||1)*100).toFixed(1)+'% del total';
+  updateCharts();
+}
+
+function animateVal(id, val) {
+  const el = document.getElementById(id);
+  if (el) { el.style.opacity='0.4'; setTimeout(()=>{el.textContent=val; el.style.opacity='1';},150); }
+}
+
+/* ══ CHARTS ══ */
+function initCharts() {
+  const ageData = getAgeData() || [1529030,4057213,523660];
+  chartPieAge = new Chart(document.getElementById('pieAge'), {
+    type: 'doughnut',
+    data: { labels:['0–14 años','15–64 años','65+ años'], datasets:[{data:ageData, backgroundColor:['#0e7fc2','#0d9e75','#d08d10'], borderWidth:0, hoverOffset:6}] },
+    options: { responsive:true, maintainAspectRatio:false, cutout:'65%', plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>`${ctx.raw.toLocaleString('es-PY')} (${(ctx.raw/ctx.dataset.data.reduce((a,b)=>a+b,0)*100).toFixed(1)}%)`}} } }
+  });
+
+  chartBarSexo = new Chart(document.getElementById('barSexo'), {
+    type:'bar',
+    data:{ labels:['0–14 años','15–64 años','65+ años'], datasets:[
+      {label:'Hombres',data:[762360,2019500,275814],backgroundColor:'#0e7fc2',borderRadius:4},
+      {label:'Mujeres',data:[766670,2037713,247846],backgroundColor:'#6d5fd4',borderRadius:4}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:gGrid},ticks:{color:'#4b5563'}},y:{grid:{color:gGrid},ticks:{color:'#4b5563',callback:v=>(v/1e6).toFixed(1)+'M'}}}}
+  });
+
+  const byMed = [...DEPTS].sort((a,b)=>b.med-a.med);
+  chartBarEdad = new Chart(document.getElementById('barEdad'), {
+    type:'bar',
+    data:{labels:byMed.map(d=>d.name),datasets:[{label:'Edad mediana',data:byMed.map(d=>d.med),backgroundColor:byMed.map(d=>d.med>=33?'#dc4a35':d.med<=27?'#0d9e75':'#d08d10'),borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw} años`}}},scales:{x:{min:20,grid:{color:gGrid},ticks:{color:'#4b5563'}},y:{grid:{display:false},ticks:{color:'#4b5563'}}}}
+  });
+
+  const sortedPop = [...DEPTS].sort((a,b)=>b.total-a.total);
+  chartRankPob = new Chart(document.getElementById('rankPob'), {
+    type:'bar',
+    data:{labels:sortedPop.map(d=>d.name),datasets:[
+      {label:'Hombres',data:sortedPop.map(d=>d.h),backgroundColor:'#0e7fc2',borderRadius:4},
+      {label:'Mujeres',data:sortedPop.map(d=>d.m),backgroundColor:'#6d5fd4',borderRadius:4}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#4b5563',maxRotation:40,font:{size:10}}},y:{stacked:true,grid:{color:gGrid},ticks:{color:'#4b5563',callback:v=>v>=1e6?(v/1e6).toFixed(1)+'M':(v/1000)+'k'}}}}
+  });
+
+  initCompareChart();
+}
+
+function updateCharts() {
+  const ageData = getAgeData();
+  if (ageData && chartPieAge) {
+    chartPieAge.data.datasets[0].data = ageData;
+    chartPieAge.update('active');
+  }
+}
+
+function setPieType(type, btn) {
+  document.querySelectorAll('#pieAge').forEach(()=>{});
+  chartPieAge.config.type = type;
+  chartPieAge.update();
+  btn.closest('.chart-actions').querySelectorAll('.chart-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function setBarMode(mode, btn) {
+  const stacked = mode === 'stacked';
+  chartBarSexo.options.scales.x.stacked = stacked;
+  chartBarSexo.options.scales.y.stacked = stacked;
+  chartBarSexo.update();
+  btn.closest('.chart-actions').querySelectorAll('.chart-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function setPobViz(type, btn) {
+  chartRankPob.config.options.indexAxis = type==='horizontalBar' ? 'y' : 'x';
+  chartRankPob.update();
+  btn.closest('.chart-actions').querySelectorAll('.chart-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+/* ══ FILTERS ══ */
+function setArea(val, btn) {
+  state.area = val;
+  btn.closest('.toggle-group').querySelectorAll('.toggle-opt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateResumen();
+}
+function setViz(val, btn) {
+  state.viz = val;
+  btn.closest('.toggle-group').querySelectorAll('.toggle-opt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateResumen();
+}
+function resetFilters() {
+  state = {area:'total',edad:'todos',viz:'total',pieType:'doughnut',barMode:'grouped'};
+  document.getElementById('selEdad').value='todos';
+  document.querySelectorAll('.toggle-opt').forEach(b=>{
+    b.classList.remove('active');
+    if(b.textContent==='Total'||b.textContent==='Totales') b.classList.add('active');
+  });
+  updateResumen();
+}
+
+/* ══ DEPT CARDS ══ */
+function renderDeptCards() {
+  const sort = document.getElementById('sortDept').value;
+  const search = (document.getElementById('searchDept').value||'').toLowerCase();
+  const maxMed = parseInt(document.getElementById('sliderMed').value);
+  let data = [...DEPTS].filter(d => d.name.toLowerCase().includes(search) && d.med <= maxMed);
+  if (sort==='pop-desc') data.sort((a,b)=>b.total-a.total);
+  else if (sort==='pop-asc') data.sort((a,b)=>a.total-b.total);
+  else if (sort==='med-asc') data.sort((a,b)=>a.med-b.med);
+  else if (sort==='med-desc') data.sort((a,b)=>b.med-a.med);
+  else data.sort((a,b)=>a.name.localeCompare(b.name));
+  const maxPop = Math.max(...DEPTS.map(d=>d.total));
+  const grid = document.getElementById('deptGrid');
+  grid.innerHTML = data.map(d => `
+    <div class="dept-card ${compareList.includes(d.name)?'selected':''}" onclick="showDeptDetail('${d.name}')">
+      <div class="dept-card-name">${d.name}</div>
+      <div class="dept-card-pop">${d.total.toLocaleString('es-PY')}</div>
+      <div class="dept-card-meta">Edad med: ${d.med} años · H/M: ${(d.h/d.m).toFixed(2)}</div>
+      <div class="dept-card-bar" style="width:${Math.round(d.total/maxPop*100)}%"></div>
+    </div>`).join('');
+}
+
+function filterDeptCards() { renderDeptCards(); }
+function filterByMed(v) {
+  document.getElementById('sliderVal').textContent = v >= 36 ? 'Todos' : '≤ '+v+' años';
+  renderDeptCards();
+}
+
+function showDeptDetail(name) {
+  const d = DEPTS.find(x=>x.name===name);
+  if (!d) return;
+  document.getElementById('detailName').textContent = d.name;
+  document.getElementById('detailPop').textContent = d.total.toLocaleString('es-PY');
+  document.getElementById('detailH').textContent = d.h.toLocaleString('es-PY');
+  document.getElementById('detailM').textContent = d.m.toLocaleString('es-PY');
+  document.getElementById('detailMed').textContent = d.med+' años';
+  document.getElementById('detailPct').textContent = (d.total/TOTAL*100).toFixed(1)+'%';
+  document.getElementById('detailRatio').textContent = (d.h/d.m).toFixed(3);
+  const detail = document.getElementById('deptDetail');
+  detail.classList.add('visible');
+  detail.scrollIntoView({behavior:'smooth',block:'nearest'});
+  if (detailChartRef) detailChartRef.destroy();
+  detailChartRef = new Chart(document.getElementById('detailChart'),{
+    type:'bar',
+    data:{labels:['Niños (0-14)','Activos (15-64)','Mayores (65+)'],datasets:[
+      {label:'Hombres',data:[Math.round(d.j*d.h/d.total),Math.round(d.a*d.h/d.total),Math.round(d.v*d.h/d.total)],backgroundColor:'#0e7fc2',borderRadius:4},
+      {label:'Mujeres',data:[Math.round(d.j*d.m/d.total),Math.round(d.a*d.m/d.total),Math.round(d.v*d.m/d.total)],backgroundColor:'#6d5fd4',borderRadius:4}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:gGrid},ticks:{callback:v=>(v/1000).toFixed(0)+'k'}}}}
+  });
+}
+
+/* ══ COMPARE ══ */
+function initCompareChart() {
+  const ctx = document.getElementById('compareChart');
+  compareChartRef = new Chart(ctx, {
+    type:'bar',
+    data:{labels:[],datasets:[{label:'Población',data:[],backgroundColor:'#0e7fc2',borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#4b5563'}},y:{grid:{color:gGrid},ticks:{color:'#4b5563',callback:v=>v>=1e6?(v/1e6).toFixed(1)+'M':(v/1000)+'k'}}}}
+  });
+  populateCompareSelect();
+}
+
+function populateCompareSelect() {
+  const sel = document.getElementById('selCompare');
+  DEPTS.forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = d.name; opt.textContent = d.name;
+    sel.appendChild(opt);
+  });
+}
+
+function addToCompare(name) {
+  if (!name) return;
+  if (compareList.includes(name)) { document.getElementById('selCompare').value=''; return; }
+  if (compareList.length >= 4) { alert('Máximo 4 departamentos'); return; }
+  compareList.push(name);
+  document.getElementById('selCompare').value='';
+  updateCompare();
+  renderDeptCards();
+}
+
+function removeFromCompare(name) {
+  compareList = compareList.filter(n=>n!==name);
+  updateCompare();
+  renderDeptCards();
+}
+
+function clearCompare() { compareList=[]; updateCompare(); renderDeptCards(); }
+
+function updateCompare() {
+  const metrica = document.getElementById('selMetrica').value;
+  const chips = document.getElementById('compareChips');
+  chips.innerHTML = compareList.map(n=>`<span class="chip">${n}<button onclick="removeFromCompare('${n}')">×</button></span>`).join('');
+
+  if (!compareList.length) {
+    compareChartRef.data.labels=[];
+    compareChartRef.data.datasets[0].data=[];
+    compareChartRef.update();
+    document.getElementById('compareExtra').style.display='none';
+    return;
+  }
+
+  const colors = ['#0e7fc2','#0d9e75','#dc4a35','#d08d10'];
+  const data = compareList.map(n=>DEPTS.find(d=>d.name===n));
+
+  let vals, label;
+  if (metrica==='total')       { vals=data.map(d=>d.total); label='Población total'; }
+  else if (metrica==='pct_ninos')   { vals=data.map(d=>(d.j/d.total*100).toFixed(1)); label='% Niños 0-14'; }
+  else if (metrica==='pct_activos') { vals=data.map(d=>(d.a/d.total*100).toFixed(1)); label='% Activos 15-64'; }
+  else if (metrica==='pct_mayores') { vals=data.map(d=>(d.v/d.total*100).toFixed(1)); label='% Adultos mayores 65+'; }
+  else if (metrica==='med')    { vals=data.map(d=>d.med); label='Edad mediana'; }
+  else if (metrica==='ratio')  { vals=data.map(d=>(d.h/d.m).toFixed(3)); label='Ratio Hombres/Mujeres'; }
+
+  compareChartRef.data.labels = compareList;
+  compareChartRef.data.datasets[0].data = vals;
+  compareChartRef.data.datasets[0].backgroundColor = compareList.map((_,i)=>colors[i]);
+  compareChartRef.data.datasets[0].label = label;
+  document.getElementById('compareTitle').textContent = label+' — Comparativa';
+  compareChartRef.options.scales.y.ticks.callback = metrica==='total' ? v=>v>=1e6?(v/1e6).toFixed(1)+'M':(v/1000)+'k' : v=>v;
+  compareChartRef.update();
+
+  // Extra charts
+  document.getElementById('compareExtra').style.display='grid';
+  if (compareAgeRef) compareAgeRef.destroy();
+  if (compareGenderRef) compareGenderRef.destroy();
+
+  compareAgeRef = new Chart(document.getElementById('compareAge'),{
+    type:'bar',
+    data:{labels:['0–14','15–64','65+'],datasets:data.map((d,i)=>({label:d.name,data:[(d.j/d.total*100).toFixed(1),(d.a/d.total*100).toFixed(1),(d.v/d.total*100).toFixed(1)],backgroundColor:colors[i],borderRadius:3}))},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{boxWidth:10,font:{size:11}}}},scales:{x:{grid:{display:false}},y:{grid:{color:gGrid},ticks:{callback:v=>v+'%'}}}}
+  });
+  compareGenderRef = new Chart(document.getElementById('compareGender'),{
+    type:'bar',
+    data:{labels:compareList,datasets:[
+      {label:'Hombres',data:data.map(d=>d.h),backgroundColor:'#0e7fc2',borderRadius:3},
+      {label:'Mujeres',data:data.map(d=>d.m),backgroundColor:'#6d5fd4',borderRadius:3}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{boxWidth:10,font:{size:11}}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:gGrid},ticks:{callback:v=>v>=1e6?(v/1e6).toFixed(1)+'M':(v/1000)+'k'}}}}
+  });
+}
+
+/* ══ TABLE ══ */
+function renderTable(data) {
+  const maxPop = Math.max(...DEPTS.map(d=>d.total));
+  document.getElementById('mainTbody').innerHTML = data.map((d,i) => `
+    <tr onclick="showDeptDetail('${d.name}')" style="cursor:pointer">
+      <td class="rank">${i+1}</td>
+      <td style="font-weight:500;color:var(--text)">${d.name}</td>
+      <td class="num-cell">${d.total.toLocaleString('es-PY')}<div class="mini-bar" style="width:${Math.round(d.total/maxPop*100)}%"></div></td>
+      <td class="num-cell" style="color:#0e7fc2">${d.h.toLocaleString('es-PY')}</td>
+      <td class="num-cell" style="color:#6d5fd4">${d.m.toLocaleString('es-PY')}</td>
+      <td class="num-cell" style="color:${d.med>=33?'#dc4a35':d.med<=27?'#0d9e75':'#d08d10'};font-weight:600">${d.med}</td>
+      <td class="num-cell">${(d.h/d.m).toFixed(3)}</td>
+      <td><span class="pct-lbl">${(d.total/TOTAL*100).toFixed(1)}%</span></td>
+    </tr>`).join('');
+}
+
+function sortTable(col) {
+  if (sortCol===col) sortDir*=-1; else { sortCol=col; sortDir=-1; }
+  document.querySelectorAll('.data-table th').forEach(th=>th.classList.remove('sorted'));
+  let sorted = [...DEPTS];
+  if (col==='name') sorted.sort((a,b)=>sortDir*a.name.localeCompare(b.name));
+  else if (col==='ratio') sorted.sort((a,b)=>sortDir*(a.h/a.m - b.h/b.m));
+  else sorted.sort((a,b)=>sortDir*(a[col]||0 - b[col]||0));
+  if (col==='total') sorted.sort((a,b)=>sortDir*(a.total-b.total));
+  if (col==='med') sorted.sort((a,b)=>sortDir*(a.med-b.med));
+  if (col==='h') sorted.sort((a,b)=>sortDir*(a.h-b.h));
+  if (col==='m') sorted.sort((a,b)=>sortDir*(a.m-b.m));
+  renderTable(sorted);
+}
+
+function filterTable(q) {
+  const data = DEPTS.filter(d=>d.name.toLowerCase().includes(q.toLowerCase()));
+  renderTable(data);
+}
+
+/* ══ NAV SCROLL ══ */
+function goTo(id) { document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); }
+const navItems = document.querySelectorAll('.nav-item[data-section]');
+const secObserver = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       navItems.forEach(el=>el.classList.remove('active'));
@@ -568,89 +929,18 @@ const observer=new IntersectionObserver(entries=>{
       if(a) a.classList.add('active');
     }
   });
-},{threshold:0.2,rootMargin:'-56px 0px -45% 0px'});
-document.querySelectorAll('section[id]').forEach(s=>observer.observe(s));
+},{threshold:0.2,rootMargin:'-54px 0px -45% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>secObserver.observe(s));
 
-/* ── CHAT ── */
-const API_KEY = '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';
-let chatHistory=[];
-let isSending=false;
 
-function openChat(){ document.getElementById('chatOverlay').classList.add('open'); }
-function closeChat(){ document.getElementById('chatOverlay').classList.remove('open'); }
-function closeChatBg(e){ if(e.target===document.getElementById('chatOverlay')) closeChat(); }
 
-function now(){ return new Date().toLocaleTimeString('es-PY',{hour:'2-digit',minute:'2-digit'}); }
-
-function appendMsg(role,text){
-  const d=document.createElement('div');
-  d.className=`msg ${role}`;
-  d.innerHTML=`<div class="msg-bubble">${text}</div><div class="msg-time">${now()}</div>`;
-  document.getElementById('chatMessages').appendChild(d);
-  d.scrollIntoView({behavior:'smooth',block:'end'});
-}
-
-function appendTyping(){
-  const d=document.createElement('div');
-  d.className='msg ai'; d.id='typing';
-  d.innerHTML=`<div class="msg-bubble"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
-  document.getElementById('chatMessages').appendChild(d);
-  d.scrollIntoView({behavior:'smooth',block:'end'});
-}
-
-function sendSugg(el){
-  document.getElementById('chatInput').value=el.textContent;
-  document.getElementById('suggestions').style.display='none';
-  sendMsg();
-}
-
-async function sendMsg(){
-  const inp=document.getElementById('chatInput');
-  const text=inp.value.trim();
-  if(!text||isSending) return;
-  isSending=true;
-  document.getElementById('sendBtn').disabled=true;
-  inp.value=''; inp.style.height='auto';
-  document.getElementById('suggestions').style.display='none';
-  appendMsg('user',text);
-  chatHistory.push({role:'user',content:text});
-  appendTyping();
-  try{
-    const payload = {
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 800,
-      system: CENSO_CONTEXT,
-      messages: chatHistory
-    };
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-api-key': API_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify(payload)
-    });
-    document.getElementById('typing')?.remove();
-    const data = await res.json();
-    if(!res.ok){
-      const msg = data?.error?.message || `Error ${res.status}`;
-      appendMsg('ai',`❌ ${msg}`);
-      return;
-    }
-    const reply = data.content?.[0]?.text || 'Sin respuesta.';
-    chatHistory.push({role:'assistant', content:reply});
-    appendMsg('ai', reply.replace(/\n/g,'<br>'));
-  }catch(e){
-    document.getElementById('typing')?.remove();
-    appendMsg('ai','❌ Error de conexión: ' + e.message);
-  }finally{
-    isSending=false;
-    document.getElementById('sendBtn').disabled=false;
-    inp.focus();
-  }
-}
+/* ══ INIT ══ */
+document.addEventListener('DOMContentLoaded',()=>{
+  initCharts();
+  renderDeptCards();
+  renderTable([...DEPTS].sort((a,b)=>b.total-a.total));
+  updateResumen();
+});
 </script>
 </body>
 </html>
