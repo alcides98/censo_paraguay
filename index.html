@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paraguay · Censo 2022 · Análisis Demográfico</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --bg2: #ffffff;
+    --bg3: #f0f2f5;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.15);
+    --text: #111827;
+    --text2: #4b5563;
+    --text3: #9ca3af;
+    --accent: #0e7fc2;
+    --accent2: #0a6aa8;
+    --blue: #0e7fc2;
+    --blue2: #0a6aa8;
+    --teal: #0d9e75;
+    --coral: #dc4a35;
+    --purple: #6d5fd4;
+    --green: #4a9a2c;
+    --shadow: 0 1px 4px rgba(0,0,0,0.10);
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 64px 40px 52px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, #e8f4fc 0%, #f0f8ff 50%, #e6f3fb 100%);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -80px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(14,127,194,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -40px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(13,158,117,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(14,127,194,0.3);
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    background: rgba(14,127,194,0.06);
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 400;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .hero h1 em { color: var(--accent); font-style: italic; }
+  .hero h1 { color: #111827; }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--text2);
+    max-width: 560px;
+    margin-bottom: 32px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .hero-stat { display: flex; flex-direction: column; gap: 2px; }
+  .hero-stat .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: #0e7fc2;
+    line-height: 1;
+  }
+  .hero-stat .lbl { font-size: 12px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
+  .hero-divider { width: 1px; background: rgba(14,127,194,0.2); align-self: stretch; margin: 0 8px; }
+
+  /* ── NAV ── */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+    padding: 0 40px;
+  }
+  .nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; gap: 0;
+    height: 48px;
+  }
+  .nav-item {
+    padding: 0 16px;
+    height: 48px;
+    display: flex; align-items: center;
+    font-size: 13px;
+    color: #4b5563;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .nav-item:hover { color: #111827; }
+  .nav-item.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+  .nav-chat {
+    margin-left: auto;
+    background: var(--accent);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .nav-chat:hover { background: #0969a0; transform: translateY(-1px); }
+
+  /* ── MAIN ── */
+  main { max-width: 1100px; margin: 0 auto; padding: 48px 40px; }
+  section { margin-bottom: 64px; scroll-margin-top: 64px; }
+  .section-head {
+    display: flex; align-items: baseline; gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-head h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px; font-weight: 400;
+    color: var(--text);
+  }
+  .section-head .section-tag {
+    font-size: 11px; color: var(--text3);
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+
+  /* ── KPI GRID ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .kpi {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 18px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .kpi:hover { border-color: rgba(14,127,194,0.25); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(14,127,194,0.08); }
+  .kpi::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .kpi.blue::before { background: var(--blue); }
+  .kpi.teal::before { background: var(--teal); }
+  .kpi.coral::before { background: var(--coral); }
+  .kpi.purple::before { background: var(--purple); }
+  .kpi.amber::before { background: var(--accent); }
+  .kpi.green::before { background: var(--green); }
+  .kpi-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .kpi-value { font-family: 'DM Serif Display', serif; font-size: 34px; line-height: 1; color: var(--text); }
+  .kpi-sub { font-size: 12px; color: var(--text2); margin-top: 6px; }
+
+  /* ── CHART CARDS ── */
+  .chart-grid { display: grid; gap: 16px; }
+  .chart-grid.two { grid-template-columns: 1fr 1fr; }
+  .chart-grid.three { grid-template-columns: 2fr 1fr; }
+  @media (max-width: 700px) {
+    .chart-grid.two, .chart-grid.three { grid-template-columns: 1fr; }
+    main { padding: 32px 20px; }
+    .hero { padding: 60px 20px 48px; }
+    .nav { padding: 0 20px; }
+  }
+  .chart-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .chart-card:hover { border-color: var(--border2); }
+  .chart-title {
+    font-size: 13px; font-weight: 500;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .chart-desc { font-size: 12px; color: var(--text3); margin-bottom: 16px; }
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-bottom: 12px; font-size: 11px; color: var(--text2);
+  }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .leg-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+  .chart-wrap { position: relative; width: 100%; }
+
+  /* ── TABLE ── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    text-align: left; font-size: 11px; font-weight: 500;
+    color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 10px 12px;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table tr:hover td { background: var(--bg3); color: var(--text); }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table .num-cell { font-family: 'DM Serif Display', serif; font-size: 14px; color: var(--text); text-align: right; }
+  .mini-bar { height: 4px; border-radius: 2px; background: var(--blue); margin-top: 3px; opacity: 0.7; }
+  .pct-lbl { font-size: 10px; color: var(--text3); }
+  .rank { font-size: 11px; color: var(--text3); font-weight: 500; }
+
+  /* ── INSIGHTS ── */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .insight {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .insight:hover { border-color: rgba(14,127,194,0.25); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(14,127,194,0.08); }
+  .insight-icon { font-size: 22px; margin-bottom: 10px; }
+  .insight h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .insight p { font-size: 13px; color: var(--text2); line-height: 1.55; }
+  .insight-tag {
+    display: inline-block; font-size: 10px; font-weight: 500;
+    padding: 3px 8px; border-radius: 10px; margin-top: 10px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .tag-warn { background: rgba(220,74,53,0.10); color: #b83324; }
+  .tag-info { background: rgba(14,127,194,0.10); color: #0a6aa8; }
+  .tag-success { background: rgba(13,158,117,0.10); color: #0a7d5c; }
+  .tag-amber { background: rgba(14,127,194,0.10); color: var(--accent); }
+
+  /* ── CHAT PANEL ── */
+  .chat-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: flex-end; justify-content: flex-end;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .chat-overlay.open { opacity: 1; pointer-events: all; }
+  .chat-panel {
+    width: 420px; max-width: calc(100vw - 40px);
+    height: min(620px, calc(100vh - 80px));
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 18px;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    transform: translateY(20px) scale(0.98);
+    transition: transform 0.3s;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+  }
+  .chat-overlay.open .chat-panel { transform: translateY(0) scale(1); }
+  .chat-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .chat-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, #0e7fc2, #0a6aa8);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .chat-header-info { flex: 1; }
+  .chat-header-info strong { font-size: 14px; color: var(--text); font-weight: 600; }
+  .chat-header-info span { font-size: 11px; color: var(--teal); display: block; }
+  .chat-close {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--text2); cursor: pointer; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, color 0.2s;
+  }
+  .chat-close:hover { background: var(--coral); color: white; }
+  .chat-messages {
+    flex: 1; overflow-y: auto; padding: 16px;
+    display: flex; flex-direction: column; gap: 12px;
+    scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+  }
+  .msg {
+    max-width: 88%;
+    animation: fadeUp 0.25s ease;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(8px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .msg.ai { align-self: flex-start; }
+  .msg.user { align-self: flex-end; }
+  .msg-bubble {
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .msg.ai .msg-bubble {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+  .msg.user .msg-bubble {
+    background: var(--accent);
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+    font-weight: 500;
+  }
+  .msg-time { font-size: 10px; color: var(--text3); margin-top: 4px; padding: 0 2px; }
+  .msg.user .msg-time { text-align: right; }
+  .typing { display: flex; gap: 4px; padding: 12px 14px; }
+  .typing-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #9ca3af;
+    animation: bounce 1.2s ease-in-out infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce {
+    0%,60%,100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+  }
+  .chat-suggestions {
+    padding: 0 16px 8px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .suggestion {
+    font-size: 11px; color: var(--text2);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 5px 10px;
+    cursor: pointer; background: var(--bg3);
+    transition: border-color 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .suggestion:hover { border-color: var(--accent); color: var(--accent); background: rgba(14,127,194,0.05); }
+  .chat-input-area {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    display: flex; gap: 8px; align-items: flex-end;
+  }
+  .chat-input {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 10px 14px;
+    resize: none;
+    min-height: 40px;
+    max-height: 100px;
+    outline: none;
+    transition: border-color 0.2s;
+    overflow-y: auto;
+  }
+  .chat-input:focus { border-color: var(--accent); }
+  .chat-input::placeholder { color: var(--text3); }
+  .chat-send {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--accent); border: none;
+    color: #ffffff; cursor: pointer; font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .chat-send:hover { background: #e8be5a; transform: scale(1.05); }
+  .chat-send:disabled { background: var(--bg3); color: var(--text3); cursor: not-allowed; transform: none; }
+  .chat-api-note {
+    font-size: 10px; color: var(--text3);
+    text-align: center; padding: 4px 16px 0;
+  }
+
+  /* ── FAB ── */
+  .fab {
+    position: fixed; bottom: 28px; right: 28px; z-index: 150;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--accent); border: none;
+    color: #0d0f14; font-size: 22px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 24px rgba(14,127,194,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .fab:hover { transform: scale(1.08); box-shadow: 0 8px 32px rgba(14,127,194,0.45); }
+  .fab-badge {
+    position: absolute; top: -2px; right: -2px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--teal); border: 2px solid var(--bg);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 40px;
+    text-align: center;
+    color: var(--text3);
+    font-size: 12px;
+  }
+  footer a { color: var(--text2); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  /* ── API KEY MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 300;
+    background: rgba(0,0,0,0.4);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 18px;
+    padding: 32px;
+    max-width: 440px; width: 100%;
+    transform: scale(0.96);
+    transition: transform 0.3s;
+  }
+  .modal-overlay.open .modal { transform: scale(1); }
+  .modal h3 { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 8px; }
+  .modal p { font-size: 13px; color: var(--text2); margin-bottom: 20px; line-height: 1.6; }
+  .modal-input {
+    width: 100%; background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px;
+    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px;
+    outline: none; margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+  .modal-input:focus { border-color: var(--accent); }
+  .modal-btn {
+    width: 100%; background: var(--accent);
+    color: #ffffff; border: none; border-radius: 10px;
+    padding: 12px; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .modal-btn:hover { background: #0a6aa8; }
+  .modal-note { font-size: 11px; color: var(--text3); text-align: center; margin-top: 10px; }
+
+  /* ── IQ DATA BRANDING ── */
+  .iqdata-brand {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 28px;
+  }
+  .iq-logo {
+    height: 70px; width: auto; display: block;
+  }
+  .iq-label {
+    font-size: 13px; font-weight: 500;
+    color: var(--text2);
+    letter-spacing: 0.04em;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 8px;
+    margin-right: 24px;
+    padding-right: 24px;
+    border-right: 1px solid var(--border);
+  }
+  .nav-logo-svg { display: block; }
+  .nav-logo span { font-size: 12px; color: var(--text3); }
+  .footer-iq {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    margin-bottom: 16px; flex-wrap: wrap;
+  }
+  .footer-iq img { height: 28px; width: auto; }
+  .footer-iq-info { font-size: 12px; color: var(--text2); line-height: 1.8; }
+  .footer-iq-info a { color: #4a9fd4; text-decoration: none; }
+  .footer-iq-info a:hover { color: var(--accent); }
+  .footer-divider { width: 100%; height: 1px; background: var(--border); margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="iqdata-brand">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 72" class="iq-logo">
+  <text x="0" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#0e7fc2" letter-spacing="-1">IQ</text>
+  <text x="72" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#111827" letter-spacing="-1">DATA</text>
+  <text x="0" y="64" font-family="Arial,sans-serif" font-size="12.5" font-weight="400" fill="#6b7280" letter-spacing="0.8">Estrategia Corporativa</text>
+</svg>
+      <span class="iq-label">Un desarrollo de <strong style="color:var(--text)">IQ DATA</strong> · Estrategia Corporativa</span>
+    </div>
+    <div class="hero-badge">INE · Censo Nacional 2022</div>
+    <h1>Paraguay<br><em>en números</em></h1>
+    <p class="hero-sub">Análisis demográfico completo del Censo Nacional de Población y Viviendas 2022. Estructura por edad, sexo, departamento y área.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="num">6.1M</span>
+        <span class="lbl">Habitantes</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="num">17</span>
+        <span class="lbl">Departamentos</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="num">29</span>
+        <span class="lbl">Edad mediana</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="num">69%</span>
+        <span class="lbl">Área urbana</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 72" style="height:36px;width:auto;display:block;">
+  <text x="0" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#0e7fc2" letter-spacing="-1">IQ</text>
+  <text x="72" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#111827" letter-spacing="-1">DATA</text>
+  <text x="0" y="64" font-family="Arial,sans-serif" font-size="12.5" font-weight="400" fill="#6b7280" letter-spacing="0.8">Estrategia Corporativa</text>
+</svg>
+    </div>
+    <div class="nav-item active" data-section="nacional" onclick="scrollTo('nacional')">Nacional</div>
+    <div class="nav-item" data-section="edad" onclick="scrollTo('edad')">Edad</div>
+    <div class="nav-item" data-section="departamentos" onclick="scrollTo('departamentos')">Departamentos</div>
+    <div class="nav-item" data-section="insights" onclick="scrollTo('insights')">Hallazgos</div>
+    <button class="nav-chat" onclick="openChat()">💬 Preguntar a la IA</button>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main>
+
+  <!-- SECTION: NACIONAL -->
+  <section id="nacional">
+    <div class="section-head">
+      <h2>Indicadores nacionales</h2>
+      <span class="section-tag">Total país</span>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi blue">
+        <div class="kpi-label">Población total</div>
+        <div class="kpi-value">6.1M</div>
+        <div class="kpi-sub">6,109,903 habitantes</div>
+      </div>
+      <div class="kpi teal">
+        <div class="kpi-label">Hombres</div>
+        <div class="kpi-value">50.0%</div>
+        <div class="kpi-sub">3,057,674 personas</div>
+      </div>
+      <div class="kpi purple">
+        <div class="kpi-label">Mujeres</div>
+        <div class="kpi-value">50.0%</div>
+        <div class="kpi-sub">3,052,229 personas</div>
+      </div>
+      <div class="kpi amber">
+        <div class="kpi-label">Edad mediana</div>
+        <div class="kpi-value">29</div>
+        <div class="kpi-sub">País con población joven</div>
+      </div>
+      <div class="kpi coral">
+        <div class="kpi-label">Urbana</div>
+        <div class="kpi-value">69%</div>
+        <div class="kpi-sub">4,215,101 habitantes</div>
+      </div>
+      <div class="kpi green">
+        <div class="kpi-label">Rural</div>
+        <div class="kpi-value">31%</div>
+        <div class="kpi-sub">1,894,802 habitantes</div>
+      </div>
+    </div>
+
+    <div class="chart-grid two">
+      <div class="chart-card">
+        <div class="chart-title">Distribución por grupo etario</div>
+        <div class="chart-desc">Tres grandes cohortes — país con bono demográfico activo</div>
+        <div class="legend">
+          <span><span class="leg-dot" style="background:#4a9fd4"></span>0–14 años (25%)</span>
+          <span><span class="leg-dot" style="background:#3db88a"></span>15–64 años (66.4%)</span>
+          <span><span class="leg-dot" style="background:#d4a843"></span>65+ años (8.6%)</span>
+        </div>
+        <div class="chart-wrap" style="height:240px"><canvas id="pieAge"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Urbano vs Rural por grupo de edad</div>
+        <div class="chart-desc">La población rural es proporcionalmente más joven</div>
+        <div class="legend">
+          <span><span class="leg-dot" style="background:#4a9fd4"></span>Urbana</span>
+          <span><span class="leg-dot" style="background:#d4614a"></span>Rural</span>
+        </div>
+        <div class="chart-wrap" style="height:240px"><canvas id="barUrbRur"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: EDAD -->
+  <section id="edad">
+    <div class="section-head">
+      <h2>Estructura por edad y sexo</h2>
+      <span class="section-tag">Pirámide demográfica</span>
+    </div>
+    <div class="chart-grid" style="grid-template-columns: 1fr;">
+      <div class="chart-card">
+        <div class="chart-title">Composición demográfica por área</div>
+        <div class="chart-desc">Comparativa de los tres grandes grupos en cada área geográfica</div>
+        <div class="legend">
+          <span><span class="leg-dot" style="background:#4a9fd4"></span>0–14 años</span>
+          <span><span class="leg-dot" style="background:#3db88a"></span>15–64 años</span>
+          <span><span class="leg-dot" style="background:#d4a843"></span>65+ años</span>
+        </div>
+        <div class="chart-wrap" style="height:260px"><canvas id="barAreaEdad"></canvas></div>
+      </div>
+    </div>
+
+    <div class="chart-grid two" style="margin-top:16px">
+      <div class="chart-card">
+        <div class="chart-title">Porcentaje de niños (0-14) por área</div>
+        <div class="chart-desc">Lo rural tiene mayor proporción de población joven</div>
+        <div class="chart-wrap" style="height:200px"><canvas id="pieUrb"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Porcentaje adultos mayores (65+) por área</div>
+        <div class="chart-desc">La vejez está más distribuida entre ambas áreas</div>
+        <div class="chart-wrap" style="height:200px"><canvas id="pieRur"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: DEPARTAMENTOS -->
+  <section id="departamentos">
+    <div class="section-head">
+      <h2>Análisis por departamento</h2>
+      <span class="section-tag">18 unidades territoriales</span>
+    </div>
+
+    <div class="chart-card" style="margin-bottom:16px">
+      <div class="chart-title">Población total por departamento (top 12)</div>
+      <div class="chart-desc">Central, Alto Paraná e Itapúa dominan la distribución</div>
+      <div class="legend">
+        <span><span class="leg-dot" style="background:#4a9fd4"></span>Hombres</span>
+        <span><span class="leg-dot" style="background:#8878d4"></span>Mujeres</span>
+      </div>
+      <div class="chart-wrap" style="height:320px"><canvas id="barDept"></canvas></div>
+    </div>
+
+    <div class="chart-card" style="margin-bottom:16px">
+      <div class="chart-title">Edad mediana por departamento</div>
+      <div class="chart-desc">Verde = más joven · Ámbar = punto medio · Rojo = más envejecido</div>
+      <div class="chart-wrap" style="height:360px"><canvas id="barEdad"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Tabla completa de departamentos</div>
+      <div class="chart-desc">Todos los datos del Cuadro 1 — Censo 2022</div>
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Departamento</th>
+              <th style="text-align:right">Total</th>
+              <th style="text-align:right">Hombres</th>
+              <th style="text-align:right">Mujeres</th>
+              <th style="text-align:right">Edad med.</th>
+              <th>% País</th>
+            </tr>
+          </thead>
+          <tbody id="deptBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: INSIGHTS -->
+  <section id="insights">
+    <div class="section-head">
+      <h2>Hallazgos clave</h2>
+      <span class="section-tag">Análisis interpretativo</span>
+    </div>
+    <div class="insights-grid">
+      <div class="insight">
+        <div class="insight-icon">⚖️</div>
+        <h4>Paridad de género casi perfecta</h4>
+        <p>La diferencia entre hombres y mujeres es de solo 5,445 personas sobre 6.1 millones — ratio de 1.002, una de las paridades más equilibradas de Sudamérica.</p>
+        <span class="insight-tag tag-info">Equilibrio de género</span>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🏙️</div>
+        <h4>Concentración metropolitana</h4>
+        <p>Central y Asunción juntas concentran 2.35 millones de personas — el 38.4% del país en apenas dos unidades territoriales. Alta presión sobre servicios urbanos.</p>
+        <span class="insight-tag tag-warn">Concentración</span>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🌱</div>
+        <h4>Bono demográfico activo</h4>
+        <p>Con edad mediana de 29 años y el 66.4% en edad laboral (15-64), Paraguay tiene un bono demográfico que puede impulsar el crecimiento si se traduce en empleo productivo.</p>
+        <span class="insight-tag tag-success">Oportunidad</span>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">👴</div>
+        <h4>Ñeembucú: el más envejecido</h4>
+        <p>Edad mediana de 35 años. Desmochados tiene 48 años — el valor más alto del país. Patrón asociado a emigración de jóvenes hacia centros urbanos.</p>
+        <span class="insight-tag tag-warn">Envejecimiento</span>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">⚡</div>
+        <h4>Canindeyú: la frontera más joven</h4>
+        <p>Edad mediana de 25 años. Maracaná registra 22 años — el distrito más joven. Alta fecundidad y fuerte presencia de colonias recientes explican este perfil.</p>
+        <span class="insight-tag tag-success">Población joven</span>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🌾</div>
+        <h4>Desequilibrio masculino en el Chaco</h4>
+        <p>Alto Paraguay registra 9,197 hombres vs 7,998 mujeres — ratio de 1.15, el más alto del país. Vinculado a actividades ganaderas y labores rurales masculinizadas.</p>
+        <span class="insight-tag tag-amber">Ratio de género</span>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🌍</div>
+        <h4>Urbanización desigual</h4>
+        <p>Asunción, Ciudad del Este, Capiatá y San Lorenzo son 100% urbanas. En contraste, departamentos como San Pedro tienen el 74.6% de población rural.</p>
+        <span class="insight-tag tag-warn">Brecha territorial</span>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">📈</div>
+        <h4>La vejez supera el millón</h4>
+        <p>Con 523,660 personas de 65 años o más (8.6%), Paraguay comienza a enfrentar presiones para el sistema de salud y jubilaciones, aunque aún en niveles manejables.</p>
+        <span class="insight-tag tag-info">Transición demográfica</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-iq">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 72" style="height:50px;width:auto;display:block;">
+  <text x="0" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#0e7fc2" letter-spacing="-1">IQ</text>
+  <text x="72" y="42" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#111827" letter-spacing="-1">DATA</text>
+  <text x="0" y="64" font-family="Arial,sans-serif" font-size="12.5" font-weight="400" fill="#6b7280" letter-spacing="0.8">Estrategia Corporativa</text>
+</svg>
+    <div class="footer-iq-info">
+      <strong style="color:var(--text);font-size:13px;">IQ DATA · Estrategia Corporativa</strong><br>
+      <a href="http://www.iqdata.com.py" target="_blank">www.iqdata.com.py</a> &nbsp;·&nbsp;
+      <a href="tel:+595994135989">0994 135 989</a> &nbsp;·&nbsp;
+      Asunción, Paraguay
+    </div>
+  </div>
+  <div class="footer-divider"></div>
+  <p>Fuente: <a href="#" style="color:var(--text2)">INE Paraguay</a> · Resultados Finales — Censo Nacional de Población y Viviendas 2022 ·
+  Análisis e interfaz elaborados a partir de datos públicos del Instituto Nacional de Estadística.</p>
+</footer>
+
+<!-- FAB -->
+<button class="fab" onclick="openChat()" title="Consultar IA">
+  💬
+  <span class="fab-badge"></span>
+</button>
+
+<!-- CHAT OVERLAY -->
+<div class="chat-overlay" id="chatOverlay" onclick="closeChatOnBg(event)">
+  <div class="chat-panel">
+    <div class="chat-header">
+      <div class="chat-avatar">🧠</div>
+      <div class="chat-header-info">
+        <strong>Asistente demográfico</strong>
+        <span>● En línea · Datos Censo 2022</span>
+      </div>
+      <button class="chat-close" onclick="closeChat()">✕</button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg ai">
+        <div class="msg-bubble">¡Hola! Soy tu asistente especializado en el <strong>Censo Nacional de Población de Paraguay 2022</strong>. Puedo responderte preguntas sobre población, edad, sexo, departamentos, zonas urbanas y rurales, y más.<br><br>¿Qué querés saber?</div>
+        <div class="msg-time">ahora</div>
+      </div>
+    </div>
+
+    <div class="chat-suggestions" id="suggestions">
+      <div class="suggestion" onclick="sendSuggestion(this)">¿Cuál es el departamento más poblado?</div>
+      <div class="suggestion" onclick="sendSuggestion(this)">¿Cómo se compara la edad mediana entre departamentos?</div>
+      <div class="suggestion" onclick="sendSuggestion(this)">¿Dónde hay más desequilibrio de género?</div>
+      <div class="suggestion" onclick="sendSuggestion(this)">¿Qué departamentos son más rurales?</div>
+    </div>
+
+    <div class="chat-input-area">
+      <textarea class="chat-input" id="chatInput" placeholder="Preguntá sobre el censo..." rows="1"
+        onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      <button class="chat-send" id="sendBtn" onclick="sendMessage()">➤</button>
+    </div>
+    <div class="chat-api-note">Powered by Claude · Anthropic</div>
+  </div>
+</div>
+
+<!-- API KEY MODAL -->
+<div class="modal-overlay" id="apiModal">
+  <div class="modal">
+    <h3>Configurar API Key</h3>
+    <p>Para usar el asistente de IA necesitás una API Key de Anthropic. Podés obtenerla gratis en <strong>console.anthropic.com</strong>. La clave se guarda solo en tu navegador.</p>
+    <input type="password" class="modal-input" id="apiKeyInput" placeholder="sk-ant-api03-..." />
+    <button class="modal-btn" onclick="saveApiKey()">Guardar y continuar</button>
+    <div class="modal-note">Tu clave nunca se envía a ningún servidor propio. Se usa solo para llamadas directas a Anthropic.</div>
+  </div>
+</div>
+
+<script>
+/* ── DATA ── */
+const DEPTS = [
+  { name:'Asunción',       total:462241,  h:221222, m:241019, med:33 },
+  { name:'Central',        total:1883927, h:933196, m:950731, med:29 },
+  { name:'Alto Paraná',    total:763702,  h:384226, m:379476, med:28 },
+  { name:'Itapúa',         total:449642,  h:228057, m:221585, med:29 },
+  { name:'Caaguazú',       total:431519,  h:218731, m:212788, med:28 },
+  { name:'San Pedro',      total:355175,  h:180765, m:174410, med:28 },
+  { name:'Cordillera',     total:268037,  h:137118, m:130919, med:31 },
+  { name:'Concepción',     total:206181,  h:102293, m:103888, med:27 },
+  { name:'Paraguarí',      total:200472,  h:100725, m:99747,  med:33 },
+  { name:'Canindeyú',      total:191114,  h:97403,  m:93711,  med:25 },
+  { name:'Amambay',        total:179412,  h:88481,  m:90931,  med:27 },
+  { name:'Guairá',         total:179555,  h:90197,  m:89358,  med:31 },
+  { name:'Caazapá',        total:139479,  h:71157,  m:68322,  med:29 },
+  { name:'Pdte. Hayes',    total:123313,  h:63848,  m:59465,  med:27 },
+  { name:'Misiones',       total:111142,  h:55756,  m:55386,  med:31 },
+  { name:'Ñeembucú',       total:76719,   h:38355,  m:38364,  med:35 },
+  { name:'Boquerón',       total:71078,   h:36947,  m:34131,  med:26 },
+  { name:'Alto Paraguay',  total:17195,   h:9197,   m:7998,   med:26 },
+];
+
+const CENSO_CONTEXT = `Sos un asistente experto en demografía paraguaya, especializado en el Censo Nacional de Población y Viviendas 2022 del INE (Instituto Nacional de Estadística de Paraguay). Respondé en español, de forma concisa, clara y con datos precisos.
+
+DATOS CLAVE DEL CENSO 2022:
+
+TOTAL PAÍS:
+- Población total: 6,109,903
+- Hombres: 3,057,674 (50.0%)
+- Mujeres: 3,052,229 (50.0%)
+- Edad mediana nacional: 29 años
+- Área urbana: 4,215,101 (69%)
+- Área rural: 1,894,802 (31%)
+
+GRUPOS DE EDAD (Total país):
+- 0-14 años: 1,529,030 (25.0%) — Urbana: 1,008,300 | Rural: 520,730
+- 15-64 años: 4,057,213 (66.4%) — Urbana: 2,861,356 | Rural: 1,195,857
+- 65+ años: 523,660 (8.6%) — Urbana: 345,445 | Rural: 178,215
+
+DEPARTAMENTOS (Población, hombres, mujeres, edad mediana):
+- Asunción: 462,241 | H: 221,222 | M: 241,019 | Med: 33 años | 100% urbana
+- Concepción: 206,181 | H: 102,293 | M: 103,888 | Med: 27 años | Urbana: 54.1%
+- San Pedro: 355,175 | H: 180,765 | M: 174,410 | Med: 28 años | Urbana: 25.4% (muy rural)
+- Cordillera: 268,037 | H: 137,118 | M: 130,919 | Med: 31 años | Urbana: 40.4%
+- Guairá: 179,555 | H: 90,197 | M: 89,358 | Med: 31 años | Urbana: 42.9%
+- Caaguazú: 431,519 | H: 218,731 | M: 212,788 | Med: 28 años | Urbana: 44.1%
+- Caazapá: 139,479 | H: 71,157 | M: 68,322 | Med: 29 años | Urbana: 23.8% (muy rural)
+- Itapúa: 449,642 | H: 228,057 | M: 221,585 | Med: 29 años | Urbana: 50.5%
+- Misiones: 111,142 | H: 55,756 | M: 55,386 | Med: 31 años | Urbana: 60.7%
+- Paraguarí: 200,472 | H: 100,725 | M: 99,747 | Med: 33 años | Urbana: 36.6%
+- Alto Paraná: 763,702 | H: 384,226 | M: 379,476 | Med: 28 años | Urbana: 81.4%
+- Central: 1,883,927 | H: 933,196 | M: 950,731 | Med: 29 años | Urbana: 94.6%
+- Ñeembucú: 76,719 | H: 38,355 | M: 38,364 | Med: 35 años | Urbana: 67.8%
+- Amambay: 179,412 | H: 88,481 | M: 90,931 | Med: 27 años | Urbana: 77.5%
+- Canindeyú: 191,114 | H: 97,403 | M: 93,711 | Med: 25 años | Urbana: 38.7% (el más joven)
+- Presidente Hayes: 123,313 | H: 63,848 | M: 59,465 | Med: 27 años | Urbana: 48.9%
+- Boquerón: 71,078 | H: 36,947 | M: 34,131 | Med: 26 años | Urbana: 51.4%
+- Alto Paraguay: 17,195 | H: 9,197 | M: 7,998 | Med: 26 años | Urbana: 50.7% | mayor desequilibrio de género del país (ratio 1.15)
+
+HALLAZGOS CLAVE:
+- Departamento más poblado: Central (1,883,927)
+- Departamento menos poblado: Alto Paraguay (17,195)
+- Ciudad más grande dentro de un departamento: Ciudad del Este (325,819) en Alto Paraná
+- Departamento más joven: Canindeyú (med. 25 años); distrito más joven: Maracaná (22 años)
+- Departamento más envejecido: Ñeembucú (med. 35 años); distrito más envejecido: Desmochados (48 años)
+- Mayor desequilibrio de género: Alto Paraguay (ratio H/M: 1.15)
+- Departamentos 100% urbanos: Asunción, (Areguá, Capiatá, Fernando de la Mora en Central)
+- Departamentos más rurales: San Pedro (74.6% rural), Caazapá (76.2% rural)
+- Central + Asunción = 2,346,168 personas = 38.4% del total nacional
+
+Respondé siempre con datos del censo. Si te preguntan sobre temas no relacionados al censo, redirigí amablemente. Usa números concretos, porcentajes y comparaciones. Podés usar emojis ocasionalmente. Sé directo y útil.`;
+
+/* ── CHARTS SETUP ── */
+const gc = (dark) => ({
+  grid: dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)',
+  text: dark ? '#9a9890' : '#555'
+});
+
+const isDark = false;
+const g = gc(isDark);
+
+Chart.defaults.color = '#4b5563';
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.font.size = 12;
+
+// Pie grupos etarios
+new Chart(document.getElementById('pieAge'), {
+  type: 'doughnut',
+  data: {
+    labels: ['0–14 años', '15–64 años', '65+ años'],
+    datasets: [{ data: [1529030, 4057213, 523660], backgroundColor: ['#0e7fc2','#0d9e75','#d08d10'], borderWidth: 0, hoverOffset: 6 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '65%',
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.raw.toLocaleString('es-PY')} (${(ctx.raw/6109903*100).toFixed(1)}%)` } }
+    }
+  }
+});
+
+// Bar urbano/rural
+new Chart(document.getElementById('barUrbRur'), {
+  type: 'bar',
+  data: {
+    labels: ['0–14 años', '15–64 años', '65+ años'],
+    datasets: [
+      { label: 'Urbana', data: [1008300, 2861356, 345445], backgroundColor: '#4a9fd4', borderRadius: 4 },
+      { label: 'Rural',  data: [520730, 1195857, 178215],  backgroundColor: '#d4614a', borderRadius: 4 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: g.grid }, ticks: { color: g.text } },
+      y: { grid: { color: g.grid }, ticks: { color: g.text, callback: v => (v/1e6).toFixed(1)+'M' } }
+    }
+  }
+});
+
+// Bar área/edad comparativa
+new Chart(document.getElementById('barAreaEdad'), {
+  type: 'bar',
+  data: {
+    labels: ['Total país', 'Asunción', 'Central', 'Alto Paraná', 'San Pedro', 'Canindeyú'],
+    datasets: [
+      { label: '0–14 años', data: [25.0, 19.2, 23.7, 26.5, 28.2, 30.2], backgroundColor: '#4a9fd4', borderRadius: 3 },
+      { label: '15–64 años', data: [66.4, 68.7, 68.5, 67.4, 63.0, 64.6], backgroundColor: '#3db88a', borderRadius: 3 },
+      { label: '65+ años',  data: [8.6, 12.1, 7.8, 6.0, 8.7, 5.3],     backgroundColor: '#d4a843', borderRadius: 3 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` } } },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: g.text } },
+      y: { stacked: true, grid: { color: g.grid }, ticks: { color: g.text, callback: v => v+'%' } }
+    }
+  }
+});
+
+// Pies urbano/rural joven vs mayor
+new Chart(document.getElementById('pieUrb'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Urbana','Rural'],
+    datasets: [{ data: [1008300, 520730], backgroundColor: ['#4a9fd4','#d4614a'], borderWidth: 0 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '60%',
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${(ctx.raw/1529030*100).toFixed(1)}%` } } }
+  }
+});
+new Chart(document.getElementById('pieRur'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Urbana','Rural'],
+    datasets: [{ data: [345445, 178215], backgroundColor: ['#d4a843','#8878d4'], borderWidth: 0 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, cutout: '60%',
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${(ctx.raw/523660*100).toFixed(1)}%` } } }
+  }
+});
+
+// Bar departamentos (top 12 por población)
+const sorted = [...DEPTS].sort((a,b) => b.total - a.total).slice(0,12);
+new Chart(document.getElementById('barDept'), {
+  type: 'bar',
+  data: {
+    labels: sorted.map(d => d.name),
+    datasets: [
+      { label: 'Hombres', data: sorted.map(d => d.h), backgroundColor: '#4a9fd4', borderRadius: 4 },
+      { label: 'Mujeres', data: sorted.map(d => d.m), backgroundColor: '#8878d4', borderRadius: 4 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { color: g.text, maxRotation: 35 } },
+      y: { stacked: true, grid: { color: g.grid }, ticks: { color: g.text, callback: v => v>=1e6 ? (v/1e6).toFixed(1)+'M' : (v/1000)+'k' } }
+    }
+  }
+});
+
+// Bar edad mediana
+const byMed = [...DEPTS].sort((a,b) => b.med - a.med);
+new Chart(document.getElementById('barEdad'), {
+  type: 'bar',
+  data: {
+    labels: byMed.map(d => d.name),
+    datasets: [{
+      label: 'Edad mediana',
+      data: byMed.map(d => d.med),
+      backgroundColor: byMed.map(d => d.med >= 33 ? '#d4614a' : d.med <= 27 ? '#3db88a' : '#d4a843'),
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw} años` } } },
+    scales: {
+      x: { min: 20, grid: { color: g.grid }, ticks: { color: g.text } },
+      y: { grid: { display: false }, ticks: { color: g.text } }
+    }
+  }
+});
+
+// Tabla departamentos
+const maxPop = Math.max(...DEPTS.map(d => d.total));
+const tbody = document.getElementById('deptBody');
+[...DEPTS].sort((a,b) => b.total - a.total).forEach((d, i) => {
+  const pct = (d.total / 6109903 * 100).toFixed(1);
+  const barW = Math.round(d.total / maxPop * 100);
+  tbody.innerHTML += `<tr>
+    <td class="rank">${i+1}</td>
+    <td style="font-weight:500;color:var(--text)">${d.name}</td>
+    <td class="num-cell">${d.total.toLocaleString('es-PY')}</td>
+    <td class="num-cell" style="color:#4a9fd4">${d.h.toLocaleString('es-PY')}</td>
+    <td class="num-cell" style="color:#8878d4">${d.m.toLocaleString('es-PY')}</td>
+    <td class="num-cell" style="color:${d.med>=33?'#d4614a':d.med<=27?'#3db88a':'#d4a843'}">${d.med}</td>
+    <td style="min-width:90px">
+      <div class="mini-bar" style="width:${barW}%;background:#4a9fd4"></div>
+      <span class="pct-lbl">${pct}%</span>
+    </td>
+  </tr>`;
+});
+
+/* ── NAVIGATION ── */
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Auto-highlight nav based on scroll position
+const sections = ['nacional','edad','departamentos','insights'];
+const navItems = document.querySelectorAll('.nav-item[data-section]');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navItems.forEach(el => el.classList.remove('active'));
+      const active = document.querySelector(`.nav-item[data-section="${id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.25, rootMargin: '-60px 0px -40% 0px' });
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+
+/* ── CHAT ── */
+let apiKey = localStorage.getItem('anthropic_key') || '';
+let chatHistory = [];
+let isSending = false;
+
+function openChat() {
+  if (!apiKey) {
+    document.getElementById('apiModal').classList.add('open');
+  } else {
+    document.getElementById('chatOverlay').classList.add('open');
+  }
+}
+function closeChat() { document.getElementById('chatOverlay').classList.remove('open'); }
+function closeChatOnBg(e) { if (e.target === document.getElementById('chatOverlay')) closeChat(); }
+
+function saveApiKey() {
+  const k = document.getElementById('apiKeyInput').value.trim();
+  if (!k.startsWith('sk-')) { alert('Ingresá una clave válida (comienza con sk-ant-...)'); return; }
+  apiKey = k;
+  localStorage.setItem('anthropic_key', k);
+  document.getElementById('apiModal').classList.remove('open');
+  document.getElementById('chatOverlay').classList.add('open');
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+function sendSuggestion(el) {
+  document.getElementById('chatInput').value = el.textContent;
+  document.getElementById('suggestions').style.display = 'none';
+  sendMessage();
+}
+
+function now() {
+  return new Date().toLocaleTimeString('es-PY', { hour: '2-digit', minute: '2-digit' });
+}
+
+function appendMsg(role, text) {
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  div.innerHTML = `<div class="msg-bubble">${text}</div><div class="msg-time">${now()}</div>`;
+  document.getElementById('chatMessages').appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  return div;
+}
+
+function appendTyping() {
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+  div.id = 'typingIndicator';
+  div.innerHTML = `<div class="msg-bubble"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  document.getElementById('chatMessages').appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text || isSending) return;
+
+  isSending = true;
+  document.getElementById('sendBtn').disabled = true;
+  input.value = ''; input.style.height = 'auto';
+  document.getElementById('suggestions').style.display = 'none';
+
+  appendMsg('user', text);
+  chatHistory.push({ role: 'user', content: text });
+
+  appendTyping();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 600,
+        system: CENSO_CONTEXT,
+        messages: chatHistory
+      })
+    });
+
+    document.getElementById('typingIndicator')?.remove();
+
+    if (!res.ok) {
+      const err = await res.json();
+      if (res.status === 401) {
+        apiKey = '';
+        localStorage.removeItem('anthropic_key');
+        appendMsg('ai', '❌ La API key no es válida. <strong>Recargá la página</strong> e ingresá una clave correcta.');
+      } else {
+        appendMsg('ai', `❌ Error: ${err.error?.message || 'Error desconocido.'}`);
+      }
+      return;
+    }
+
+    const data = await res.json();
+    const reply = data.content[0].text;
+    chatHistory.push({ role: 'assistant', content: reply });
+    appendMsg('ai', reply.replace(/\n/g, '<br>'));
+
+  } catch (e) {
+    document.getElementById('typingIndicator')?.remove();
+    appendMsg('ai', '❌ Error de conexión. Verificá tu internet e intentá de nuevo.');
+  } finally {
+    isSending = false;
+    document.getElementById('sendBtn').disabled = false;
+    input.focus();
+  }
+}
+</script>
+</body>
+</html>
